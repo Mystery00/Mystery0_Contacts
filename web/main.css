@@ -1,0 +1,30 @@
+body {
+    background: url("img/material_background.png") no-repeat;
+    background-size: 100%;
+}
+
+.loginFieldBackground {
+    text-align: center;
+    margin-top: 10%;
+    height: auto;
+    min-height: 400px;
+}
+
+.loginField {
+    margin-left: 20%;
+    margin-right: 20%;
+    display: block;
+    padding: 48px 40px 36px;
+    background: rgba(255, 255, 255, 0.51);
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    line-height: 20px;
+}
+
+.login_username_div .login_password_div .login_button_div{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.login_input{
+}
