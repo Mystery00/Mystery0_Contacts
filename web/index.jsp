@@ -7,6 +7,9 @@
     <title>登录</title>
 </head>
 <body>
+<%
+
+%>
 <div class="loginFieldBackground" role="presentation">
     <div class="loginField">
         <div>Google</div>

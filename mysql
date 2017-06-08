@@ -1,0 +1,31 @@
+CREATE SCHEMA `mystery0_contacts` DEFAULT CHARACTER SET utf8 ;
+
+CREATE TABLE `mystery0_contacts`.`user` (
+  `userID` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `userType` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`userID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE `mystery0_contacts`.`contact` (
+  `contactID` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `phoneNumberList` VARCHAR(45) NULL,
+  `initials` VARCHAR(45) NOT NULL,
+  `countryCode` VARCHAR(45) NOT NULL,
+  `tag` VARCHAR(45) NULL,
+  `emailList` VARCHAR(45) NULL,
+  `userID` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`contactID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE `mystery0_contacts`.`tag` (
+  `tagID` INT NOT NULL AUTO_INCREMENT,
+  `tagName` VARCHAR(45) NOT NULL,
+  `userID` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`tagID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
