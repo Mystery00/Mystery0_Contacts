@@ -1,25 +1,28 @@
+<%@ page import="init.Initialization" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
     <title>Login</title>
 </head>
 <body>
 <%
-
+    Initialization.initSQL();//初始化数据库
 %>
 <div class="loginFieldBackground" role="presentation">
     <div class="loginField">
         <div><img src="img/google_logo.png" alt="Google"></div>
         <br>
         <div class="login_username_div">
-            <input class="login_input" type="text" name="username" title="username" placeholder="Please Enter Username">
+            <input class="login_input" type="text" name="username" title="username"
+                   placeholder="Please Enter Username">
         </div>
         <br>
         <div class="login_password_div">
-            <input class="login_input" type="text" name="password" title="password" placeholder="Please Enter Password">
+            <input class="login_input" type="text" name="password" title="password"
+                   placeholder="Please Enter Password">
         </div>
         <br>
         <div class="login_button_div">
