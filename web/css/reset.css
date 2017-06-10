@@ -1,0 +1,13 @@
+*{
+	padding: 0px;
+	margin:0px;
+}
+html,body{
+	height: 100%;
+}
+a:link,a:visited,a:hover,a:active{
+text-decoration: none;
+}
+.menu-checked{
+     color:#2a56c6 !important;
+  }
