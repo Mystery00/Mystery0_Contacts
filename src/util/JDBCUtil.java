@@ -18,7 +18,6 @@ public class JDBCUtil
     private String URL;
     private Connection connection;
     private PreparedStatement preparedStatement;
-    private ResultSet resultSet;
     private int pageSize = 3;
 
     public JDBCUtil(String databaseName)

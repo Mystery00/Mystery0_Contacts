@@ -4,9 +4,10 @@ import util.JDBCUtil;
 
 public class Initialization
 {
+    private static JDBCUtil jdbcUtil;
+
     public static void initSQL()
     {
-        JDBCUtil jdbcUtil = new JDBCUtil("mystery0_contacts");
         String sql1 = "CREATE TABLE IF NOT EXISTS`mystery0_contacts`.`user`(\n" +
                 "  `userID` INT NOT NULL AUTO_INCREMENT,\n" +
                 "  `username` VARCHAR(45) NOT NULL,\n" +
@@ -14,7 +15,7 @@ public class Initialization
                 "  `userType` VARCHAR(45) NOT NULL,\n" +
                 "  PRIMARY KEY (`userID`))\n" +
                 "DEFAULT CHARACTER SET = utf8;";
-        System.out.println(jdbcUtil.update(sql1, null));
+        getJDBCUtil().update(sql1, null);
 
         String sql2 = "CREATE TABLE IF NOT EXISTS `mystery0_contacts`.`contact` (\n" +
                 "  `contactID` INT NOT NULL AUTO_INCREMENT,\n" +
@@ -27,7 +28,7 @@ public class Initialization
                 "  `userID` VARCHAR(45) NOT NULL,\n" +
                 "  PRIMARY KEY (`contactID`))\n" +
                 "  DEFAULT CHARACTER SET = utf8;";
-        System.out.println(jdbcUtil.update(sql2, null));
+        getJDBCUtil().update(sql2, null);
 
         String sql3 = "CREATE TABLE IF NOT EXISTS `mystery0_contacts`.`tag` (\n" +
                 "  `tagID` INT NOT NULL AUTO_INCREMENT,\n" +
@@ -35,6 +36,15 @@ public class Initialization
                 "  `userID` VARCHAR(45) NOT NULL,\n" +
                 "  PRIMARY KEY (`tagID`))\n" +
                 "  DEFAULT CHARACTER SET = utf8;";
-        System.out.println(jdbcUtil.update(sql3, null));
+        getJDBCUtil().update(sql3, null);
+    }
+
+    public static JDBCUtil getJDBCUtil()
+    {
+        if (jdbcUtil==null)
+        {
+            jdbcUtil=new JDBCUtil("mystery0_contacts");
+        }
+        return jdbcUtil;
     }
 }
