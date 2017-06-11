@@ -1,18 +1,36 @@
-body {
-    background: url("../img/material_background.png") no-repeat;
+html, body {
     background-size: 100%;
+    margin: 0;
+    height: 100%;
+}
+
+img {
+    width: 60%;
+    height: 60%;
+}
+
+.svg_div {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 .loginFieldBackground {
     text-align: center;
-    margin-top: 10%;
-    height: auto;
+
+    height: 100%;
     min-height: 400px;
+    overflow: hidden;
 }
 
 .loginField {
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 30%;
+    margin-right: 30%;
     display: block;
     padding: 48px 40px 36px;
     background: rgba(255, 255, 255, 0.51);
@@ -27,4 +45,37 @@ body {
 }
 
 .login_input {
+    width: 90%;
+    height: 24px;
+}
+
+.login_button_div_background {
+    height: 28px;
+}
+
+.login_button_div {
+    float: right;
+    width: 60px;
+    height: 28px;
+    background: #4285f4;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.login_button {
+    float: right;
+    color: #ffffff;
+    width: 60px;
+    height: 28px;
+    background: none;
+    border: none;
+}
+
+.register {
+    margin-right: 80px;
+}
+
+.forget_div .forget_a {
+    float: left;
+    height: 28px;
+    line-height: 28px;
 }

@@ -1,10 +1,9 @@
-<%@ page import="init.Initialization" %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
+    <title>Forget</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <title>Login</title>
     <script type="text/javascript">
         function checkInput(thisForm) {
             with (thisForm) {
@@ -16,23 +15,33 @@
                     alert("Password cannot be null!");
                     password.focus();
                     return false;
+                } else if (password_repeat.value === null || password_repeat.value === "") {
+                    alert("Password cannot be null!");
+                    password_repeat.focus();
+                    return false;
                 } else {
-                    return true;
+                    return checkPassword(thisForm);
                 }
             }
         }
-        function doHref() {
-            window.location.href = "register.jsp";
+        function checkPassword(thisForm) {
+            with (thisForm) {
+                if (password.value === password_repeat.value) {
+                    return true;
+                } else {
+                    alert("The password is not the same!");
+                    return false;
+                }
+            }
         }
     </script>
 </head>
 <body>
 <%
-    Initialization.initSQL();//初始化数据库
     if (request.getParameter("incorrect") != null && !request.getParameter("incorrect").equals(""))
     {
-        String incorrect = request.getParameter("incorrect");
-        switch (incorrect)
+        String temp = request.getParameter("incorrect");
+        switch (temp)
         {
             case "username":
 %>
@@ -41,10 +50,10 @@
 </script>
 <%
         break;
-    case "password":
+    case "error":
 %>
 <script>
-    alert("Password is error! ");
+    alert("Error! ");
 </script>
 <%
                 break;
@@ -70,7 +79,7 @@
     </svg>
 </div>
 <div class="loginFieldBackground" role="presentation">
-    <form action="${pageContext.request.contextPath}/LoginServlet" method="post"
+    <form name="form1" action="${pageContext.request.contextPath}/LoginServlet" method="post"
           onsubmit="return checkInput(this)"
           style=" margin-top: 10%;">
         <div class="loginField">
@@ -83,24 +92,22 @@
             <br>
             <div class="login_password_div">
                 <input class="login_input" type="password" name="password" title="password"
-                       placeholder="Please Enter Password">
+                       placeholder="Please Enter New Password">
+            </div>
+            <br>
+            <div class="login_password_div">
+                <input class="login_input" type="password" name="password_repeat" title="password"
+                       placeholder="Please Repeat Password">
             </div>
             <br>
             <div class="login_button_div_background">
                 <div class="login_button_div">
-                    <input type="text" value="login" name="type" hidden title="">
-                    <input class="login_button" type="submit" value="Login">
+                    <input type="text" value="forget" name="type" hidden title="">
+                    <input class="login_button" type="submit" value="Submit">
                 </div>
-                <div class="login_button_div register">
-                    <input class="login_button" type="button" value="Register" onclick="doHref()">
-                </div>
-                <div class="forget_div"><a class="forget_a" href="forget.jsp">Forget?</a></div>
             </div>
         </div>
     </form>
 </div>
-<footer>
-    footer
-</footer>
 </body>
 </html>

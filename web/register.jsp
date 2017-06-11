@@ -1,10 +1,9 @@
-<%@ page import="init.Initialization" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Register</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <title>Login</title>
     <script type="text/javascript">
         function checkInput(thisForm) {
             with (thisForm) {
@@ -21,36 +20,9 @@
                 }
             }
         }
-        function doHref() {
-            window.location.href = "register.jsp";
-        }
     </script>
 </head>
 <body>
-<%
-    Initialization.initSQL();//初始化数据库
-    if (request.getParameter("incorrect") != null && !request.getParameter("incorrect").equals(""))
-    {
-        String incorrect = request.getParameter("incorrect");
-        switch (incorrect)
-        {
-            case "username":
-%>
-<script>
-    alert("There is no this user! ");
-</script>
-<%
-        break;
-    case "password":
-%>
-<script>
-    alert("Password is error! ");
-</script>
-<%
-                break;
-        }
-    }
-%>
 <div class="svg_div" aria-hidden="true">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 810" aria-hidden="true">
         <path fill="#efefee"
@@ -89,18 +61,11 @@
             <div class="login_button_div_background">
                 <div class="login_button_div">
                     <input type="text" value="login" name="type" hidden title="">
-                    <input class="login_button" type="submit" value="Login">
+                    <input class="login_button" type="submit" value="Register">
                 </div>
-                <div class="login_button_div register">
-                    <input class="login_button" type="button" value="Register" onclick="doHref()">
-                </div>
-                <div class="forget_div"><a class="forget_a" href="forget.jsp">Forget?</a></div>
             </div>
         </div>
     </form>
 </div>
-<footer>
-    footer
-</footer>
 </body>
 </html>
