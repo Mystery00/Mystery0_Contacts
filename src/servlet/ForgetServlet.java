@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import init.Initialization;
 
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet
+@WebServlet(name = "ForgetServlet", urlPatterns = {"/ForgetServlet"})
+public class ForgetServlet extends HttpServlet
 {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -22,22 +22,22 @@ public class LoginServlet extends HttpServlet
         List list = Initialization.getJDBCUtil().getList(sql, new String[]{username});
         if (list.size() != 1)
         {
-            response.sendRedirect("index.jsp?incorrect=username");
+            response.sendRedirect("forget.jsp?incorrect=username");
             return;
         }
-        sql = "SELECT * FROM user WHERE username=? AND password=?";
-        list = Initialization.getJDBCUtil().getList(sql, new String[]{username, password});
-        if (list.size() == 1)
+        sql = "UPDATE user SET password=? WHERE username=?";
+        int result = Initialization.getJDBCUtil().update(sql, new String[]{password, username});
+        if (result == 1)
         {
-            response.sendRedirect("main.jsp");
+            response.sendRedirect("index.jsp?incorrect=forget");
         } else
         {
-            response.sendRedirect("index.jsp?incorrect=password");
+            response.sendRedirect("forget.jsp?incorrect=error");
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        doPost(request, response);
+
     }
 }

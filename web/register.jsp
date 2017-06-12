@@ -42,7 +42,7 @@
     </svg>
 </div>
 <div class="loginFieldBackground" role="presentation">
-    <form action="${pageContext.request.contextPath}/LoginServlet" method="post"
+    <form action="${pageContext.request.contextPath}/RegisterServlet" method="post"
           onsubmit="return checkInput(this)"
           style=" margin-top: 10%;">
         <div class="loginField">
@@ -60,7 +60,6 @@
             <br>
             <div class="login_button_div_background">
                 <div class="login_button_div">
-                    <input type="text" value="login" name="type" hidden title="">
                     <input class="login_button" type="submit" value="Register">
                 </div>
             </div>

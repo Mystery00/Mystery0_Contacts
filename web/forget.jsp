@@ -79,7 +79,7 @@
     </svg>
 </div>
 <div class="loginFieldBackground" role="presentation">
-    <form name="form1" action="${pageContext.request.contextPath}/LoginServlet" method="post"
+    <form action="${pageContext.request.contextPath}/ForgetServlet" method="post"
           onsubmit="return checkInput(this)"
           style=" margin-top: 10%;">
         <div class="loginField">
@@ -102,7 +102,6 @@
             <br>
             <div class="login_button_div_background">
                 <div class="login_button_div">
-                    <input type="text" value="forget" name="type" hidden title="">
                     <input class="login_button" type="submit" value="Submit">
                 </div>
             </div>

@@ -88,7 +88,6 @@
             <br>
             <div class="login_button_div_background">
                 <div class="login_button_div">
-                    <input type="text" value="login" name="type" hidden title="">
                     <input class="login_button" type="submit" value="Login">
                 </div>
                 <div class="login_button_div register">
