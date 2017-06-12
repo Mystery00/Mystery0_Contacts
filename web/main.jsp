@@ -76,7 +76,7 @@
         <div class="tel-list">
             <div class="list-item list-item1">
                 <div class="tel-listIcon">
-                    <img src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5MN3ESuFcwTdJhvSQWNPBg6QIhgKABD___________8BGJ7Szfn______wE/s36-p-k-rw-no/photo.jpg"
+                    <img src=""
                          alt="icon">
                     <div class="check">
                         <!--  <span class="checkbox">&nbsp</span> -->

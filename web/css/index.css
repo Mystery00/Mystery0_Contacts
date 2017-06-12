@@ -39,7 +39,7 @@
 }
 
 .wraper .datalist-default .tel-list {
-    padding: 5px 0px 5px 20px;
+    padding: 5px 0 5px 20px;
 }
 
 .wraper .datalist-default .tel-list .list-item {
@@ -68,7 +68,7 @@
     width: 56px;
     position: absolute;
     top: 0;
-    left: 0px;
+    left: 0;
     z-index: 2;
 }
 
@@ -122,7 +122,7 @@
     vertical-align: middle;
 }
 
-.wraper .asider-menu-default .menu-list .menu-item a-clicked {
+.wraper .asider-menu-default .menu-list .menu-item .a-clicked {
     color: #2a56c6;
 }
 
