@@ -1,127 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>xx</title>
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/reset.css">
-    <script type="text/javascript" src="js/jquery-3.1.1.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"
+          media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/reset.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Index</title>
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" id="menu-toggle" class=" navbar-btn collapsed"
-                    data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-                    aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-
-            <form class="navbar-form navbar-left" action=" " method=" ">
-                <div class="form-group">
-                    <input type="text" class="form-control search" placeholder="Search">
+<%!String username;%>
+<%
+    for (Cookie cookie : request.getCookies())
+    {
+        if (cookie.getName().equals("username"))
+        {
+            username = cookie.getValue();
+            break;
+        }
+    }
+%>
+<header>
+    <nav>
+        <div id="reset-nav-wrapper" class="row nav-wrapper">
+            <a href="#" data-activates="slide-out"
+               class="button-collapse left"><i
+                    class="material-icons">dehaze</i></a>
+            <form class="col s6">
+                <div class="input-field">
+                    <input id="search" type="search" required>
+                    <label class="label-icon" for="search"><i
+                            class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
             </form>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <button class="btn btn-default" id="delete"
-                            style="display:none; margin:10px 0px;">Delete
-                    </button>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-haspopup="true" aria-expanded="false">xxx <span
-                            class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
-                </li>
+            <ul id="reset-right" class="col s2 right">
+                <li><a href="#"><i class="material-icons">account_circle</i></a></li>
+                <li><a href="#"><i class="material-icons dropdown-button" data-beloworigin="true"
+                                   href='#' data-activates='dropdown1'>more_vert</i></a></li>
             </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
-<div class="wraper">
+        </div>
+    </nav>
+</header>
 
-    <div class="asider-menu-default">
-        <div class="menu-list ">
-            <div class="menu-item ">
-                <a href="#"><span class="glyphicon glyphicon-list-alt"></span><span>Contact</span></a>
+<ul id="slide-out" class="side-nav">
+    <li>
+        <div class="userView">
+            <div class="background">
+                <img src="img/material_background.png">
             </div>
-            <div class="menu-item">
-                <a href="#"><span class="glyphicon glyphicon-tags"></span><span>Contact</span></a>
+            <a href="#"><img class="circle" src="img/material_background.png"></a>
+            <a href="#"><span class="white-text name"><%=username%></span></a>
+            <a href="#"><span class="white-text email"></span></a>
+        </div>
+    </li>
+    <li><a href="#"><i class="material-icons">contacts</i>Contacts</a></li>
+    <li><a href="#"><i class="material-icons">content_copy</i>Repeat Contacts</a></li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li>
+        <ul class="collapsible" data-collapsible="accordion">
+            <li>
+                <a href="#" id="reset-collapsible-header" class="collapsible-header"><i
+                        class="material-icons">keyboard_arrow_down</i>Tags</a>
+                <ul class="collapsible-body">
+                    <li><a href="#"><i class="material-icons">label</i>tag1</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li><a class="subheader">Subheader</a></li>
+    <li><a class="waves-effect" href="#">Third Link With Waves</a></li>
+</ul>
+
+<main>
+    <!-- Dropdown Structure -->
+    <ul id='dropdown1' class='dropdown-content'>
+        <li><a href="#">Logout</a></li>
+    </ul>
+
+    <ul class="collection">
+        <li class="collection-item avatar valign-wrapper">
+            <img src="img/head/1.png" class="circle reset-img-head">
+            <span class="title">title</span>
+            <span class="reset-content">line1</span>
+            <div class="reset-secondary-content valign-wrapper row">
+                <a href="#" class="valign-wrapper col s6"><i class="material-icons">grade</i></a>
+                <a href="#" class="valign-wrapper col s6"><i
+                        class="material-icons">more_vert</i></a>
             </div>
-            <div class="menu-item">
-                <a href="#"><span class="glyphicon glyphicon-retweet"></span><span>Contact</span></a>
-            </div>
-            <hr>
+        </li>
+    </ul>
+    <a id="reset-floating-button"
+       class="btn-floating btn-large waves-effect waves-light red right-aligned"><i
+            class="material-icons">add</i></a>
+</main>
+
+<footer class="page-footer">
+    <div class="container">
+        <ul class="pagination">
+            <li class="disabled"><a href="#"><i class="material-icons">chevron_left</i></a></li>
+            <li class="active"><a href="#">1</a></li>
+            <li class="waves-effect"><a href="#">2</a></li>
+            <li class="waves-effect"><a href="#">3</a></li>
+            <li class="waves-effect"><a href="#">4</a></li>
+            <li class="waves-effect"><a href="#">5</a></li>
+            <li class="waves-effect"><a href="#"><i class="material-icons">chevron_right</i></a>
+            </li>
+        </ul>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">@ 2014 Copyright WeiLy Lab
+            <a class="grey-text text-lighten-4 right" href="#">More Links</a>
         </div>
     </div>
-    <div class="datalist-default">
+</footer>
 
-        <div class="tel-list">
-            <div class="list-item list-item1">
-                <div class="tel-listIcon">
-                    <img src=""
-                         alt="icon">
-                    <div class="check">
-                        <!--  <span class="checkbox">&nbsp</span> -->
-                        <input type="checkbox">
-                    </div>
-                </div>
-                <div class="tel-message">
-                    <span class="phoneNum">1832695545</span>
-                    <span class="email">test@gmail.com</span>
-                </div>
-            </div>
-
-            <div class="list-item list-item1">
-                <div class="tel-listIcon">
-                    <img src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5MN3ESuFcwTdJhvSQWNPBg6QIhgKABD___________8BGJ7Szfn______wE/s36-p-k-rw-no/photo.jpg"
-                         alt="icon">
-                    <div class="check">
-                        <!--  <span class="checkbox">&nbsp</span> -->
-                        <input type="checkbox">
-                    </div>
-                </div>
-                <div class="tel-message">
-                    <span class="phoneNum">1832695545</span>
-                    <span class="email">test@gmail.com</span>
-                </div>
-            </div>
-
-            <div class="list-item list-item1">
-                <div class="tel-listIcon">
-                    <img src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5MN3ESuFcwTdJhvSQWNPBg6QIhgKABD___________8BGJ7Szfn______wE/s36-p-k-rw-no/photo.jpg"
-                         alt="icon">
-                    <div class="check">
-                        <!--  <span class="checkbox">&nbsp</span> -->
-                        <input type="checkbox">
-                    </div>
-                </div>
-                <div class="tel-message">
-                    <span class="phoneNum">1832695545</span>
-                    <span class="email">test@gmail.com</span>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-</div>
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script>
+    init();
+</script>
 </body>
 </html>

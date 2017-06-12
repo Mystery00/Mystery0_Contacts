@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +30,9 @@ public class LoginServlet extends HttpServlet
         List<Object> list = Initialization.getJDBCUtil().getObject(sql, new String[]{username, password}, User.class);
         if (list.size() == 1)
         {
-            response.sendRedirect("main.jsp");
+            Cookie cookie = new Cookie("username", username);
+            response.addCookie(cookie);
+            response.sendRedirect("GetDataServlet");
         } else
         {
             response.sendRedirect("index.jsp?incorrect=password");
