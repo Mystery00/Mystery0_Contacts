@@ -38,7 +38,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <button class="btn btn-default" id="delete"
-                            style="display:none; margin:10px 0px;">删除
+                            style="display:none; margin:10px 0px;">Delete
                     </button>
                 </li>
                 <li class="dropdown">
@@ -60,13 +60,13 @@
     <div class="asider-menu-default">
         <div class="menu-list ">
             <div class="menu-item ">
-                <a href="#"><span class="glyphicon glyphicon-list-alt"></span><span>联系人</span></a>
+                <a href="#"><span class="glyphicon glyphicon-list-alt"></span><span>Contact</span></a>
             </div>
             <div class="menu-item">
-                <a href="#"><span class="glyphicon glyphicon-tags"></span><span>联系人</span></a>
+                <a href="#"><span class="glyphicon glyphicon-tags"></span><span>Contact</span></a>
             </div>
             <div class="menu-item">
-                <a href="#"><span class="glyphicon glyphicon-retweet"></span><span>联系人</span></a>
+                <a href="#"><span class="glyphicon glyphicon-retweet"></span><span>Contact</span></a>
             </div>
             <hr>
         </div>
@@ -85,7 +85,7 @@
                 </div>
                 <div class="tel-message">
                     <span class="phoneNum">1832695545</span>
-                    <span class="email">pengshang@gmail.com</span>
+                    <span class="email">test@gmail.com</span>
                 </div>
             </div>
 
@@ -100,7 +100,7 @@
                 </div>
                 <div class="tel-message">
                     <span class="phoneNum">1832695545</span>
-                    <span class="email">pengshang@gmail.com</span>
+                    <span class="email">test@gmail.com</span>
                 </div>
             </div>
 
@@ -115,7 +115,7 @@
                 </div>
                 <div class="tel-message">
                     <span class="phoneNum">1832695545</span>
-                    <span class="email">pengshang@gmail.com</span>
+                    <span class="email">test@gmail.com</span>
                 </div>
             </div>
 

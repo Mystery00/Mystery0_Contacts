@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import init.Initialization;
+import util.UserUtil;
 
 @WebServlet(name = "ForgetServlet", urlPatterns = {"/ForgetServlet"})
 public class ForgetServlet extends HttpServlet
@@ -18,14 +19,12 @@ public class ForgetServlet extends HttpServlet
     {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String sql = "SELECT * FROM user WHERE username=?";
-        List list = Initialization.getJDBCUtil().getList(sql, new String[]{username});
-        if (list.size() != 1)
+        if (!UserUtil.haveUser(username))
         {
-            response.sendRedirect("forget.jsp?incorrect=username");
+            response.sendRedirect("index.jsp?incorrect=username");
             return;
         }
-        sql = "UPDATE user SET password=? WHERE username=?";
+        String sql = "UPDATE user SET password=? WHERE username=?";
         int result = Initialization.getJDBCUtil().update(sql, new String[]{password, username});
         if (result == 1)
         {
@@ -38,6 +37,6 @@ public class ForgetServlet extends HttpServlet
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-
+        doPost(request, response);
     }
 }

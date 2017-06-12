@@ -8,7 +8,7 @@ public class Initialization
 
     public static void initSQL()
     {
-        String sql1 = "CREATE TABLE IF NOT EXISTS`mystery0_contacts`.`user`(\n" +
+        String sql1 = "CREATE TABLE IF NOT EXISTS `mystery0_contacts`.`user`(\n" +
                 "  `userID` INT NOT NULL AUTO_INCREMENT,\n" +
                 "  `username` VARCHAR(45) NOT NULL,\n" +
                 "  `password` VARCHAR(45) NOT NULL,\n" +

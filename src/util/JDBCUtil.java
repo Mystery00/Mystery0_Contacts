@@ -1,5 +1,9 @@
 package util;
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,10 +26,10 @@ public class JDBCUtil
 
     public JDBCUtil(String databaseName)
     {
-        USERNAME="root";
+        USERNAME = "root";
         PASSWORD = "root";
         String DRIVER = "com.mysql.jdbc.Driver";
-        URL = "jdbc:mysql://localhost:3306/"+databaseName;
+        URL = "jdbc:mysql://localhost:3306/" + databaseName;
         try
         {
             Class.forName(DRIVER);
@@ -68,13 +72,46 @@ public class JDBCUtil
             {
                 for (int i = 0; i < params.length; i++)
                 {
-                    preparedStatement.setString(i + 1, params[i]);
+                    preparedStatement.setObject(i + 1, params[i]);
                 }
             }
         } catch (SQLException e)
         {
             e.printStackTrace();
         }
+    }
+
+    public List<Object> getObject(String sql, String[] params, Class c)
+    {
+        try
+        {
+            List<Object> list = new ArrayList<>();
+            setParams(sql, params);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            while (resultSet.next())
+            {
+                Object object = c.newInstance();
+                for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++)
+                {
+                    String colName = resultSetMetaData.getColumnName(i);
+                    for (Method method : c.getMethods())
+                    {
+                        if (method.getName().toLowerCase().contains("set") && method.getName().toLowerCase().contains(colName.toLowerCase()))
+                        {
+                            method.invoke(object, resultSet.getString(colName));
+                        }
+                    }
+                }
+                list.add(object);
+            }
+            resultSet.close();
+            return list;
+        } catch (IllegalAccessException | InstantiationException | SQLException | InvocationTargetException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List getList(String sql, String[] params)
@@ -88,9 +125,9 @@ public class JDBCUtil
             while (resultSet.next())
             {
                 Map map = new HashMap();
-                for (int i = 0; i < resultSetMetaData.getColumnCount(); i++)
+                for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++)
                 {
-                    String colName = resultSetMetaData.getCatalogName(i);
+                    String colName = resultSetMetaData.getColumnName(i);
                     map.put(colName, resultSet.getString(colName));
                 }
                 list.add(map);

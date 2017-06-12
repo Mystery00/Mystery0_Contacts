@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import classes.User;
 import init.Initialization;
+import util.UserUtil;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet
@@ -18,15 +20,13 @@ public class LoginServlet extends HttpServlet
     {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String sql = "SELECT * FROM user WHERE username=?";
-        List list = Initialization.getJDBCUtil().getList(sql, new String[]{username});
-        if (list.size() != 1)
+        if (!UserUtil.haveUser(username))
         {
             response.sendRedirect("index.jsp?incorrect=username");
             return;
         }
-        sql = "SELECT * FROM user WHERE username=? AND password=?";
-        list = Initialization.getJDBCUtil().getList(sql, new String[]{username, password});
+        String sql = "SELECT * FROM user WHERE username=? AND password=?";
+        List<Object> list = Initialization.getJDBCUtil().getObject(sql, new String[]{username, password}, User.class);
         if (list.size() == 1)
         {
             response.sendRedirect("main.jsp");
