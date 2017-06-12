@@ -18,16 +18,16 @@ public class RegisterServlet extends HttpServlet
     {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        if (!UserUtil.haveUser(username))
+        if (UserUtil.haveUser(username))
         {
-            response.sendRedirect("index.jsp?incorrect=username");
+            response.sendRedirect("register.jsp?incorrect=username");
             return;
         }
         String sql = "INSERT INTO user(username, password, userType) VALUES (?,?,1)";
         int code=Initialization.getJDBCUtil().update(sql, new String[]{username, password});
         if (code == 1)
         {
-            response.sendRedirect("main.jsp");
+            response.sendRedirect("index.jsp");
         } else
         {
             response.sendRedirect("index.jsp?incorrect=password");

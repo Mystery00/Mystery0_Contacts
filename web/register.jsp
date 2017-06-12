@@ -23,6 +23,22 @@
     </script>
 </head>
 <body>
+<%
+    if (request.getParameter("incorrect") != null && !request.getParameter("incorrect").equals(""))
+    {
+        String temp = request.getParameter("incorrect");
+        switch (temp)
+        {
+            case "username":
+%>
+<script>
+    alert("This username has been registered! ");
+</script>
+<%
+                break;
+        }
+    }
+%>
 <div class="svg_div" aria-hidden="true">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 810" aria-hidden="true">
         <path fill="#efefee"

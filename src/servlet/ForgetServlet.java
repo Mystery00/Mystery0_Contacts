@@ -21,7 +21,7 @@ public class ForgetServlet extends HttpServlet
         String password = request.getParameter("password");
         if (!UserUtil.haveUser(username))
         {
-            response.sendRedirect("index.jsp?incorrect=username");
+            response.sendRedirect("forget.jsp?incorrect=username");
             return;
         }
         String sql = "UPDATE user SET password=? WHERE username=?";
