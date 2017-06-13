@@ -4,10 +4,10 @@ public class Contact
 {
     private String contactName;
     private String phoneNumberList;
-    private String initials;
     private String countryCode;
     private String tag;
     private String emailList;
+    private String userID;
 
     public String getContactName()
     {
@@ -27,16 +27,6 @@ public class Contact
     public void setPhoneNumberList(String phoneNumberList)
     {
         this.phoneNumberList = phoneNumberList;
-    }
-
-    public String getInitials()
-    {
-        return initials;
-    }
-
-    public void setInitials(String initials)
-    {
-        this.initials = initials;
     }
 
     public String getCountryCode()
@@ -67,5 +57,15 @@ public class Contact
     public void setEmailList(String emailList)
     {
         this.emailList = emailList;
+    }
+
+    public String getUserID()
+    {
+        return userID;
+    }
+
+    public void setUserID(String userID)
+    {
+        this.userID = userID;
     }
 }

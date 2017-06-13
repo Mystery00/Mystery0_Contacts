@@ -12,7 +12,6 @@ CREATE TABLE `mystery0_contacts`.`contact` (
   `contactID` INT NOT NULL AUTO_INCREMENT,
   `contactName` VARCHAR(45) NOT NULL,
   `phoneNumberList` VARCHAR(45) NULL,
-  `initials` VARCHAR(45) NOT NULL,
   `countryCode` VARCHAR(45) NOT NULL,
   `tag` VARCHAR(45) NULL,
   `emailList` VARCHAR(45) NULL,

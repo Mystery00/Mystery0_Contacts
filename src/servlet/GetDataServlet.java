@@ -34,7 +34,7 @@ public class GetDataServlet extends HttpServlet
         }
         String tagSql = "SELECT tagName FROM tag,user WHERE username=? AND tag.userID=user.userID";
         List<Object> tagList = Initialization.getJDBCUtil().getObject(tagSql, new String[]{username}, Tag.class);
-        String contactSql = "SELECT contactName,phoneNumberList,initials,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID";
+        String contactSql = "SELECT contactName,phoneNumberList,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID";
         List<Object> contactList = Initialization.getJDBCUtil().getObject(contactSql, new String[]{username}, Contact.class);
         request.setAttribute("tagList", tagList);
         request.setAttribute("contactList", contactList);

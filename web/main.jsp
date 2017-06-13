@@ -1,6 +1,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="classes.Tag" %>
 <%@ page import="classes.Contact" %>
+<%@ page import="util.UserUtil" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -137,6 +138,8 @@
         <div id="edit-modal-<%=i%>" class="modal modal-fixed-footer">
             <form id="new-form-<%=i%>" action="InsertServlet" method="post">
                 <input type="text" name="data-type" value="contact" title="contact" hidden>
+                <input type="text" name="userID" value="<%=UserUtil.getUserID(username)%>"
+                       title="userID" hidden>
                 <div class="modal-content row">
                     <h5>Edit Contact</h5>
                     <div class="input-field col s12">
@@ -190,6 +193,8 @@
     <div id="new-modal" class="modal modal-fixed-footer">
         <form id="new-form" action="InsertServlet" method="post">
             <input type="text" name="data-type" value="contact" title="contact" hidden>
+            <input type="text" name="userID" value="<%=UserUtil.getUserID(username)%>"
+                   title="userID" hidden>
             <div class="modal-content row">
                 <h5>New Contact</h5>
                 <div class="input-field col s12">
@@ -269,11 +274,7 @@
 
     $(document).ready(function () {
         // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-        $('.modal').modal({
-            complete: function () {
-                alert('Closed');
-            } // Callback for Modal close
-        });
+        $('.modal').modal();
     });
 
     $(document).ready(function () {
