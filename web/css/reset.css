@@ -60,3 +60,8 @@ main {
     height: 11px;
     overflow: hidden;
 }
+
+.reset-checkbox {
+    margin-left: 11px;
+    margin-top: 11px;
+}

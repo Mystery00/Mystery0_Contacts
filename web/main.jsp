@@ -113,70 +113,124 @@
 
     <ul class="collection">
         <%
+            int i = -1;
             for (Contact contact : contactArrayList)
             {
+                i++;
         %>
-        <li class="collection-item avatar valign-wrapper">
+        <li class="collection-item avatar valign-wrapper list-item">
             <img src="img/head/<%=(int) (Math.random() * 19 + 1)%>.png" class="circle
-            reset-img-head">
+            reset-img-head check-img">
+            <div class="circle check-checkbox hide">
+                <input type="checkbox" class="filled-in" id="filled-in-box<%=i%>"/>
+                <label class="reset-checkbox" for="filled-in-box<%=i%>"></label>
+            </div>
             <span class="title"><%=contact.getContactName()%></span>
             <span class="reset-content"><%=contact.getPhoneNumberList()%></span>
-            <div class="reset-secondary-content valign-wrapper row">
-                <a href="#" class="valign-wrapper col s6"><i class="material-icons">grade</i></a>
-                <a href="#" class="valign-wrapper col s6"><i
-                        class="material-icons">more_vert</i></a>
+            <div class="reset-secondary-content valign-wrapper check-edit hide">
+                <a href="#edit-modal-<%=i%>" class="valign-wrapper"><i
+                        class="material-icons">edit</i></a>
             </div>
         </li>
+
+        <!-- Modal Structure -->
+        <div id="edit-modal-<%=i%>" class="modal modal-fixed-footer">
+            <form id="new-form-<%=i%>" action="InsertServlet" method="post">
+                <input type="text" name="data-type" value="contact" title="contact" hidden>
+                <div class="modal-content row">
+                    <h5>Edit Contact</h5>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">account_circle</i>
+                        <input id="contactName<%=i%>" value="<%=contact.getContactName()%>"
+                               name="contactName" type="text" class="validate">
+                        <label for="contactName<%=i%>">Name</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">smartphone</i>
+                        <input id="phoneNumber<%=i%>" value="<%=contact.getPhoneNumberList()%>"
+                               name="phoneNumber" type="text" class="validate">
+                        <label for="phoneNumber<%=i%>">Phone</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">language</i>
+                        <select id="countryCode<%=i%>" class="icons" name="countryCode">
+                            <option value="null" disabled selected>Choose your Country</option>
+                            <option value="+86">China (+86)</option>
+                            <option value="+1">US (+1)</option>
+                        </select>
+                        <label for="countryCode<%=i%>">Country</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">label</i>
+                        <input id="tag<%=i%>" value="<%=contact.getTag()%>" name="tag" type="text"
+                               class="validate">
+                        <label for="tag<%=i%>">Tag</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">email</i>
+                        <input id="emailList<%=i%>" value="<%=contact.getEmailList()%>"
+                               name="emailList"
+                               type="text" class="validate">
+                        <label for="emailList<%=i%>">E-mail</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" onclick="document.getElementById('new-form-<%=i%>').submit();"
+                       class="modal-action modal-close waves-effect waves-green btn"><i
+                            class="material-icons">done_all</i></a>
+                </div>
+            </form>
+        </div>
         <%
             }
         %>
     </ul>
 
     <!-- Modal Structure -->
-    <div id="modal1" class="modal modal-fixed-footer">
-        <div class="modal-content row">
-            <h5>New Contact</h5>
-            <div class="input-field col s12">
-                <i class="material-icons prefix reset-prefix valign-wrapper reset-color">account_circle</i>
-                <input id="contactName" name="contactName" type="text" class="validate">
-                <label for="contactName">Name</label>
+    <div id="new-modal" class="modal modal-fixed-footer">
+        <form id="new-form" action="InsertServlet" method="post">
+            <input type="text" name="data-type" value="contact" title="contact" hidden>
+            <div class="modal-content row">
+                <h5>New Contact</h5>
+                <div class="input-field col s12">
+                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">account_circle</i>
+                    <input id="contactName" name="contactName" type="text" class="validate">
+                    <label for="contactName">Name</label>
+                </div>
+                <div class="input-field col s12">
+                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">smartphone</i>
+                    <input id="phoneNumber" name="phoneNumber" type="text" class="validate">
+                    <label for="phoneNumber">Phone</label>
+                </div>
+                <div class="input-field col s6">
+                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">language</i>
+                    <select id="countryCode" class="icons" name="countryCode">
+                        <option value="null" disabled selected>Choose your Country</option>
+                        <option value="+86">China (+86)</option>
+                        <option value="+1">US (+1)</option>
+                    </select>
+                    <label for="countryCode">Country</label>
+                </div>
+                <div class="input-field col s6">
+                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">label</i>
+                    <input id="tag" name="tag" type="text" class="validate">
+                    <label for="tag">Tag</label>
+                </div>
+                <div class="input-field col s12">
+                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">email</i>
+                    <input id="emailList" name="emailList" type="text" class="validate">
+                    <label for="emailList">E-mail</label>
+                </div>
             </div>
-            <div class="input-field col s12">
-                <i class="material-icons prefix reset-prefix valign-wrapper reset-color">smartphone</i>
-                <input id="phoneNumber" name="phoneNumber" type="text" class="validate">
-                <label for="phoneNumber">Phone</label>
+            <div class="modal-footer">
+                <a href="#" onclick="document.getElementById('new-form').submit();"
+                   class="modal-action modal-close waves-effect waves-green btn"><i
+                        class="material-icons">done_all</i></a>
             </div>
-            <%--<div class="input-field col s6">--%>
-            <%--<i class="material-icons prefix reset-prefix valign-wrapper reset-color">language</i>--%>
-            <%--<input id="countryCode" name="countryCode" type="text" class="validate">--%>
-            <%--<label for="countryCode">Country</label>--%>
-            <%--</div>--%>
-            <div class="input-field col s6">
-                <i class="material-icons prefix reset-prefix valign-wrapper reset-color">language</i>
-                <select id="countryCode" class="icons" name="countryCode">
-                    <option value="null" disabled selected>Choose your Country</option>
-                    <option value="+86">China (+86)</option>
-                    <option value="+1">US (+1)</option>
-                </select>
-                <label for="countryCode">Country</label>
-            </div>
-            <div class="input-field col s6">
-                <i class="material-icons prefix reset-prefix valign-wrapper reset-color">label</i>
-                <input id="tag" name="tag" type="text" class="validate">
-                <label for="tag">Tag</label>
-            </div>
-            <div class="input-field col s12">
-                <i class="material-icons prefix reset-prefix valign-wrapper reset-color">email</i>
-                <input id="emailList" name="emailList" type="text" class="validate">
-                <label for="emailList">E-mail</label>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
-        </div>
+        </form>
     </div>
 
-    <a id="reset-floating-button" href="#modal1"
+    <a id="reset-floating-button" href="#new-modal"
        class="btn-floating btn-large waves-effect waves-light red right"><i
             class="material-icons">add</i></a>
 </main>
@@ -206,6 +260,7 @@
 <!--Import jQuery before materialize.js-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 <script>
     // Initialize collapse button
     $(".button-collapse").sideNav();
@@ -214,7 +269,11 @@
 
     $(document).ready(function () {
         // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-        $('.modal').modal();
+        $('.modal').modal({
+            complete: function () {
+                alert('Closed');
+            } // Callback for Modal close
+        });
     });
 
     $(document).ready(function () {
