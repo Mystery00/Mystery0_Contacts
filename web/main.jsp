@@ -128,11 +128,55 @@
             </div>
         </li>
         <%
-
             }
         %>
     </ul>
-    <a id="reset-floating-button"
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal modal-fixed-footer">
+        <div class="modal-content row">
+            <h5>New Contact</h5>
+            <div class="input-field col s12">
+                <i class="material-icons prefix reset-prefix valign-wrapper reset-color">account_circle</i>
+                <input id="contactName" name="contactName" type="text" class="validate">
+                <label for="contactName">Name</label>
+            </div>
+            <div class="input-field col s12">
+                <i class="material-icons prefix reset-prefix valign-wrapper reset-color">smartphone</i>
+                <input id="phoneNumber" name="phoneNumber" type="text" class="validate">
+                <label for="phoneNumber">Phone</label>
+            </div>
+            <%--<div class="input-field col s6">--%>
+            <%--<i class="material-icons prefix reset-prefix valign-wrapper reset-color">language</i>--%>
+            <%--<input id="countryCode" name="countryCode" type="text" class="validate">--%>
+            <%--<label for="countryCode">Country</label>--%>
+            <%--</div>--%>
+            <div class="input-field col s6">
+                <i class="material-icons prefix reset-prefix valign-wrapper reset-color">language</i>
+                <select id="countryCode" class="icons" name="countryCode">
+                    <option value="null" disabled selected>Choose your Country</option>
+                    <option value="+86">China (+86)</option>
+                    <option value="+1">US (+1)</option>
+                </select>
+                <label for="countryCode">Country</label>
+            </div>
+            <div class="input-field col s6">
+                <i class="material-icons prefix reset-prefix valign-wrapper reset-color">label</i>
+                <input id="tag" name="tag" type="text" class="validate">
+                <label for="tag">Tag</label>
+            </div>
+            <div class="input-field col s12">
+                <i class="material-icons prefix reset-prefix valign-wrapper reset-color">email</i>
+                <input id="emailList" name="emailList" type="text" class="validate">
+                <label for="emailList">E-mail</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
+        </div>
+    </div>
+
+    <a id="reset-floating-button" href="#modal1"
        class="btn-floating btn-large waves-effect waves-light red right"><i
             class="material-icons">add</i></a>
 </main>
@@ -162,9 +206,20 @@
 <!--Import jQuery before materialize.js-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
 <script>
-    init();
+    // Initialize collapse button
+    $(".button-collapse").sideNav();
+    // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+    $('.collapsible').collapsible();
+
+    $(document).ready(function () {
+        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+        $('.modal').modal();
+    });
+
+    $(document).ready(function () {
+        $('select').material_select();
+    });
 </script>
 </body>
 </html>

@@ -21,7 +21,7 @@ main {
 }
 
 #reset-floating-button {
-    position:absolute;
+    position: absolute;
     right: 16px;
     bottom: 16px;
 }
@@ -45,3 +45,18 @@ main {
     min-height: 64px;
 }
 
+.reset-prefix {
+    height: 43px;
+}
+
+.reset-color {
+    color: #757575;
+}
+
+.world {
+    background: url('https://ssl.gstatic.com/i18n/phonenumbers/phoneinputwidget/flags32x22_1z.png') no-repeat 0 0;
+    background-size: 17px 2724px;
+    width: 16px;
+    height: 11px;
+    overflow: hidden;
+}
