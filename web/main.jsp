@@ -178,7 +178,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" onclick="document.getElementById('new-form-<%=i%>').submit();"
+                    <a href="#" onclick="checkForm(this,1);"
                        class="modal-action modal-close waves-effect waves-green btn"><i
                             class="material-icons">done_all</i></a>
                 </div>
@@ -228,7 +228,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" onclick="document.getElementById('new-form').submit();"
+                <a href="#" onclick="checkForm(this,'');"
                    class="modal-action modal-close waves-effect waves-green btn"><i
                         class="material-icons">done_all</i></a>
             </div>
