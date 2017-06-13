@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Register</title>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"
+          media="screen,projection"/>
     <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Register</title>
     <script type="text/javascript">
         function checkInput(thisForm) {
             with (thisForm) {
@@ -61,26 +68,29 @@
     <form action="${pageContext.request.contextPath}/RegisterServlet" method="post"
           onsubmit="return checkInput(this)"
           style=" margin-top: 10%;">
-        <div class="loginField">
+        <div class="loginField row">
             <div><img src="img/google_logo.png" alt="Google"></div>
             <br>
-            <div class="login_username_div">
-                <input class="login_input" type="text" name="username" title="username"
-                       placeholder="Please Enter Username">
+            <div class="input-field col s12">
+                <input id="username" name="username" type="text" class="validate">
+                <label for="username">Username</label>
             </div>
             <br>
-            <div class="login_password_div">
-                <input class="login_input" type="password" name="password" title="password"
-                       placeholder="Please Enter Password">
+            <div class="input-field col s12">
+                <input id="password" name="password" type="password" class="validate">
+                <label for="password">Password</label>
             </div>
             <br>
-            <div class="login_button_div_background">
-                <div class="login_button_div">
-                    <input class="login_button" type="submit" value="Register">
-                </div>
+            <div class="col s12">
+                <button class="btn waves-effect waves-light right" type="submit" name="action">
+                    Register
+                </button>
             </div>
         </div>
     </form>
 </div>
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
 </body>
 </html>

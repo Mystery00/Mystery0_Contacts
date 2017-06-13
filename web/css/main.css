@@ -22,7 +22,6 @@ img {
 
 .loginFieldBackground {
     text-align: center;
-
     height: 100%;
     min-height: 400px;
     overflow: hidden;
@@ -37,45 +36,4 @@ img {
     -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
     line-height: 20px;
-}
-
-.login_username_div .login_password_div .login_button_div {
-    margin-left: 10%;
-    margin-right: 10%;
-}
-
-.login_input {
-    width: 90%;
-    height: 24px;
-}
-
-.login_button_div_background {
-    height: 28px;
-}
-
-.login_button_div {
-    float: right;
-    width: 60px;
-    height: 28px;
-    background: #4285f4;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-}
-
-.login_button {
-    float: right;
-    color: #ffffff;
-    width: 60px;
-    height: 28px;
-    background: none;
-    border: none;
-}
-
-.register {
-    margin-right: 80px;
-}
-
-.forget_div .forget_a {
-    float: left;
-    height: 28px;
-    line-height: 28px;
 }

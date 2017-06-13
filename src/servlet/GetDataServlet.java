@@ -34,8 +34,12 @@ public class GetDataServlet extends HttpServlet
         }
         String tagSql = "SELECT tagName FROM tag,user WHERE username=? AND tag.userID=user.userID";
         List<Object> tagList = Initialization.getJDBCUtil().getObject(tagSql, new String[]{username}, Tag.class);
-        String contactSql="SELECT contactName,phoneNumberList FROM contact,user WHERE username=? AND contact.userID=user.userID";
-        List<Object> contactList=Initialization.getJDBCUtil().getObject(contactSql,new String[]{username}, Contact.class);
+        String contactSql = "SELECT contactName,phoneNumberList FROM contact,user WHERE username=? AND contact.userID=user.userID";
+        List<Object> contactList = Initialization.getJDBCUtil().getObject(contactSql, new String[]{username}, Contact.class);
+        request.setAttribute("tagList", tagList);
+        request.setAttribute("contactList", contactList);
+//        response.sendRedirect("main.jsp");
+        getServletConfig().getServletContext().getRequestDispatcher("/main.jsp").forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

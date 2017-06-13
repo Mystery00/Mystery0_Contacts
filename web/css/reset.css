@@ -6,6 +6,7 @@ body {
 
 main {
     flex: 1 0 auto;
+    position: relative;
 }
 
 #reset-nav-wrapper {
@@ -19,12 +20,14 @@ main {
     justify-content: flex-end;
 }
 
-#reset-collapsible-header {
-    padding: 0 32px;
+#reset-floating-button {
+    position:absolute;
+    right: 16px;
+    bottom: 16px;
 }
 
-#reset-floating-button {
-    vertical-align: bottom;
+#reset-collapsible-header {
+    padding: 0 32px;
 }
 
 .reset-img-head {

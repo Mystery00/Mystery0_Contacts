@@ -1,3 +1,6 @@
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="classes.Tag" %>
+<%@ page import="classes.Contact" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,8 +16,21 @@
     <title>Index</title>
 </head>
 <body>
-<%!String username;%>
+<%!
+    String username;
+    ArrayList<Tag> tagArrayList;
+    ArrayList<Contact> contactArrayList;
+%>
 <%
+    if (request.getAttribute("tagList") == null || request.getAttribute("contactList") == null)
+    {
+        tagArrayList = new ArrayList<>();
+        contactArrayList = new ArrayList<>();
+    } else
+    {
+        tagArrayList = (ArrayList<Tag>) request.getAttribute("tagList");
+        contactArrayList = (ArrayList<Contact>) request.getAttribute("contactList");
+    }
     for (Cookie cookie : request.getCookies())
     {
         if (cookie.getName().equals("username"))
@@ -26,7 +42,7 @@
 %>
 <header>
     <nav>
-        <div id="reset-nav-wrapper" class="row nav-wrapper">
+        <div id="reset-nav-wrapper" class="row nav-wrapper blue">
             <a href="#" data-activates="slide-out"
                class="button-collapse left"><i
                     class="material-icons">dehaze</i></a>
@@ -53,7 +69,7 @@
             <div class="background">
                 <img src="img/material_background.png">
             </div>
-            <a href="#"><img class="circle" src="img/material_background.png"></a>
+            <a href="#"><img class="circle" src="img/account.png"></a>
             <a href="#"><span class="white-text name"><%=username%></span></a>
             <a href="#"><span class="white-text email"></span></a>
         </div>
@@ -68,9 +84,17 @@
             <li>
                 <a href="#" id="reset-collapsible-header" class="collapsible-header"><i
                         class="material-icons">keyboard_arrow_down</i>Tags</a>
+                <%
+                    for (Tag tag : tagArrayList)
+                    {
+                %>
                 <ul class="collapsible-body">
-                    <li><a href="#"><i class="material-icons">label</i>tag1</a></li>
+                    <li><a href="#"><i class="material-icons">label</i><%=tag.getTagName()%>
+                    </a></li>
                 </ul>
+                <%
+                    }
+                %>
             </li>
         </ul>
     </li>
@@ -88,32 +112,43 @@
     </ul>
 
     <ul class="collection">
+        <%
+            for (Contact contact : contactArrayList)
+            {
+        %>
         <li class="collection-item avatar valign-wrapper">
-            <img src="img/head/1.png" class="circle reset-img-head">
-            <span class="title">title</span>
-            <span class="reset-content">line1</span>
+            <img src="img/head/<%=(int) (Math.random() * 19 + 1)%>.png" class="circle
+            reset-img-head">
+            <span class="title"><%=contact.getContactName()%></span>
+            <span class="reset-content"><%=contact.getPhoneNumberList()%></span>
             <div class="reset-secondary-content valign-wrapper row">
                 <a href="#" class="valign-wrapper col s6"><i class="material-icons">grade</i></a>
                 <a href="#" class="valign-wrapper col s6"><i
                         class="material-icons">more_vert</i></a>
             </div>
         </li>
+        <%
+
+            }
+        %>
     </ul>
     <a id="reset-floating-button"
-       class="btn-floating btn-large waves-effect waves-light red right-aligned"><i
+       class="btn-floating btn-large waves-effect waves-light red right"><i
             class="material-icons">add</i></a>
 </main>
 
-<footer class="page-footer">
+<footer class="page-footer blue">
     <div class="container">
         <ul class="pagination">
-            <li class="disabled"><a href="#"><i class="material-icons">chevron_left</i></a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li class="waves-effect"><a href="#">2</a></li>
-            <li class="waves-effect"><a href="#">3</a></li>
-            <li class="waves-effect"><a href="#">4</a></li>
-            <li class="waves-effect"><a href="#">5</a></li>
-            <li class="waves-effect"><a href="#"><i class="material-icons">chevron_right</i></a>
+            <li class="disabled blue"><a href="#"><i class="material-icons">chevron_left</i></a>
+            </li>
+            <li class="active blue darken-1"><a href="#">1</a></li>
+            <li class="waves-effect blue"><a href="#">2</a></li>
+            <li class="waves-effect blue"><a href="#">3</a></li>
+            <li class="waves-effect blue"><a href="#">4</a></li>
+            <li class="waves-effect blue"><a href="#">5</a></li>
+            <li class="waves-effect blue"><a href="#"><i
+                    class="material-icons">chevron_right</i></a>
             </li>
         </ul>
     </div>
