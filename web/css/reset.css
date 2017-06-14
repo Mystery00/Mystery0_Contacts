@@ -53,20 +53,7 @@ main {
     color: #757575;
 }
 
-.world {
-    background: url('https://ssl.gstatic.com/i18n/phonenumbers/phoneinputwidget/flags32x22_1z.png') no-repeat 0 0;
-    background-size: 17px 2724px;
-    width: 16px;
-    height: 11px;
-    overflow: hidden;
-}
-
 .reset-checkbox {
     margin-left: 11px;
     margin-top: 11px;
-}
-
-.reset-close-btn {
-    margin-right: 60px;
-!important;
 }

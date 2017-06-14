@@ -1,3 +1,8 @@
+/*
+ 主界面的列表动态显示
+ */
+
+//noinspection JSJQueryEfficiency
 $(".list-item").mouseover(function (e) {
     $(e.delegateTarget).find(".check-img").addClass("hide");
     $(e.delegateTarget).addClass("grey");
@@ -6,6 +11,7 @@ $(".list-item").mouseover(function (e) {
     $(e.delegateTarget).find(".check-edit").removeClass("hide");
 });
 
+//noinspection JSJQueryEfficiency
 $(".list-item").mouseleave(function (e) {
     if (!$(e.delegateTarget).find("input").get(0).checked) {
         $(e.delegateTarget).find(".check-img").removeClass("hide");
@@ -16,18 +22,33 @@ $(".list-item").mouseleave(function (e) {
     $(e.delegateTarget).removeClass("lighten-3");
 });
 
+/*
+ tag的列表动态显示
+ */
+
 $(".tag-list").click(function (e) {
-    if ($(e.delegateTarget).hasClass("active"))
-    {
+    if ($(e.delegateTarget).hasClass("active")) {
         $(e.delegateTarget).find(".up-pointer").addClass("hide");
         $(e.delegateTarget).find(".down-pointer").removeClass("hide");
-    }else
-    {
+    } else {
         $(e.delegateTarget).find(".up-pointer").removeClass("hide");
         $(e.delegateTarget).find(".down-pointer").addClass("hide");
     }
 });
 
+//noinspection JSJQueryEfficiency
+$(".tag-item").mouseover(function (e) {
+    $(e.delegateTarget).find(".tag-delete").removeClass("hide");
+});
+
+//noinspection JSJQueryEfficiency
+$(".tag-item").mouseleave(function (e) {
+    $(e.delegateTarget).find(".tag-delete").addClass("hide");
+});
+
+/*
+ 检测表单数据
+ */
 function checkForm(k) {
     var id = "#new-form" + ((k === -1) ? '' : ('-' + k));
     var b = 0;
