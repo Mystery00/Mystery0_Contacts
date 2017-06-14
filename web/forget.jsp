@@ -86,7 +86,7 @@
     </svg>
 </div>
 <div class="loginFieldBackground" role="presentation">
-    <form action="${pageContext.request.contextPath}/ForgetServlet" method="post"
+    <form action="ForgetServlet" method="post"
           onsubmit="return checkInput(this)"
           style=" margin-top: 10%;">
         <div class="loginField row">

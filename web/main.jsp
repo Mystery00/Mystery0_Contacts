@@ -83,8 +83,11 @@
     <li>
         <ul class="collapsible" data-collapsible="accordion">
             <li>
-                <a href="#" id="reset-collapsible-header" class="collapsible-header"><i
-                        class="material-icons">keyboard_arrow_down</i>Tags</a>
+                <a href="#" id="reset-collapsible-header" class="collapsible-header tag-list">
+                    <i class="material-icons down-pointer">keyboard_arrow_down</i>
+                    <i class="material-icons up-pointer hide">keyboard_arrow_up</i>
+                    Tags
+                </a>
                 <%
                     for (Tag tag : tagArrayList)
                     {
@@ -136,7 +139,7 @@
 
         <!-- Modal Structure -->
         <div id="edit-modal-<%=i%>" class="modal modal-fixed-footer">
-            <form id="new-form-<%=i%>" action="InsertServlet" method="post">
+            <form id="new-form-<%=i%>" action="UpdateServlet" class="submit-form" method="post">
                 <input type="text" name="data-type" value="contact" title="contact" hidden>
                 <input type="text" name="userID" value="<%=UserUtil.getUserID(username)%>"
                        title="userID" hidden>
@@ -157,9 +160,10 @@
                     <div class="input-field col s6">
                         <i class="material-icons prefix reset-prefix valign-wrapper reset-color">language</i>
                         <select id="countryCode<%=i%>" class="icons" name="countryCode">
-                            <option value="null" disabled selected>Choose your Country</option>
-                            <option value="+86">China (+86)</option>
-                            <option value="+1">US (+1)</option>
+                            <option disabled <%=contact.getCountryCode().equals("")?"selected":""%>>Choose your Country</option>
+                            <option value="+86" <%=contact.getCountryCode().equals("+86")?"selected":""%>>China (+86)</option>
+                            <option value="+1" <%=contact.getCountryCode().equals("+1")?"selected":""%>>US (+1)</option>
+                            <option value="other">Other</option>
                         </select>
                         <label for="countryCode<%=i%>">Country</label>
                     </div>
@@ -178,9 +182,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" onclick="checkForm(this,1);"
+                    <a href="#" onclick="checkForm(<%=i%>);"
                        class="modal-action modal-close waves-effect waves-green btn"><i
                             class="material-icons">done_all</i></a>
+                    <a href="#" class="modal-close waves-effect waves-green btn"><i
+                            class="material-icons">close</i></a>
                 </div>
             </form>
         </div>
@@ -191,7 +197,8 @@
 
     <!-- Modal Structure -->
     <div id="new-modal" class="modal modal-fixed-footer">
-        <form id="new-form" action="InsertServlet" method="post">
+        <form id="new-form" class="submit-form"
+              action="InsertServlet" method="post">
             <input type="text" name="data-type" value="contact" title="contact" hidden>
             <input type="text" name="userID" value="<%=UserUtil.getUserID(username)%>"
                    title="userID" hidden>
@@ -210,7 +217,7 @@
                 <div class="input-field col s6">
                     <i class="material-icons prefix reset-prefix valign-wrapper reset-color">language</i>
                     <select id="countryCode" class="icons" name="countryCode">
-                        <option value="null" disabled selected>Choose your Country</option>
+                        <option disabled selected>Choose your Country</option>
                         <option value="+86">China (+86)</option>
                         <option value="+1">US (+1)</option>
                     </select>
@@ -228,9 +235,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" onclick="checkForm(this,'');"
-                   class="modal-action modal-close waves-effect waves-green btn"><i
+                <a href="#" onclick="checkForm(-1);"
+                   class="modal-action waves-effect waves-green btn"><i
                         class="material-icons">done_all</i></a>
+                <a href="#" class="modal-close waves-effect waves-green btn"><i
+                        class="material-icons">close</i></a>
             </div>
         </form>
     </div>
@@ -275,9 +284,7 @@
     $(document).ready(function () {
         // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
         $('.modal').modal();
-    });
 
-    $(document).ready(function () {
         $('select').material_select();
     });
 </script>

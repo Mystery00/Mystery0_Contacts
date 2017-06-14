@@ -65,7 +65,7 @@
     </svg>
 </div>
 <div class="loginFieldBackground" role="presentation">
-    <form action="${pageContext.request.contextPath}/RegisterServlet" method="post"
+    <form action="RegisterServlet" method="post"
           onsubmit="return checkInput(this)"
           style=" margin-top: 10%;">
         <div class="loginField row">
