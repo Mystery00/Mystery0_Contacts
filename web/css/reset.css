@@ -22,8 +22,8 @@ main {
 
 #reset-floating-button {
     position: absolute;
-    right: 16px;
-    bottom: 16px;
+    right: 32px;
+    bottom: 32px;
 }
 
 #reset-collapsible-header {
@@ -64,4 +64,9 @@ main {
 .reset-checkbox {
     margin-left: 11px;
     margin-top: 11px;
+}
+
+.reset-close-btn {
+    margin-right: 60px;
+!important;
 }

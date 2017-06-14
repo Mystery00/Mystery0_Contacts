@@ -238,7 +238,7 @@
                 <a href="#" onclick="checkForm(-1);"
                    class="modal-action waves-effect waves-green btn"><i
                         class="material-icons">done_all</i></a>
-                <a href="#" class="modal-close waves-effect waves-green btn"><i
+                <a href="#" class="modal-close waves-effect waves-green btn reset-close-btn"><i
                         class="material-icons">close</i></a>
             </div>
         </form>
