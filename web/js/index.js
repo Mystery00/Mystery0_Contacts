@@ -3,7 +3,8 @@
  */
 
 //noinspection JSJQueryEfficiency
-$(".list-item").mouseover(function (e) {
+$(".list-item").mouseover(function (e)
+{
     $(e.delegateTarget).find(".check-img").addClass("hide");
     $(e.delegateTarget).addClass("grey");
     $(e.delegateTarget).addClass("lighten-3");
@@ -12,8 +13,10 @@ $(".list-item").mouseover(function (e) {
 });
 
 //noinspection JSJQueryEfficiency
-$(".list-item").mouseleave(function (e) {
-    if (!$(e.delegateTarget).find("input").get(0).checked) {
+$(".list-item").mouseleave(function (e)
+{
+    if (!$(e.delegateTarget).find("input").get(0).checked)
+    {
         $(e.delegateTarget).find(".check-img").removeClass("hide");
         $(e.delegateTarget).find(".check-checkbox").addClass("hide");
     }
@@ -22,46 +25,84 @@ $(".list-item").mouseleave(function (e) {
     $(e.delegateTarget).removeClass("lighten-3");
 });
 
+var arr = [];
+//noinspection JSJQueryEfficiency
+$(".list-item").on("click", 'input', function (e)
+{
+    var i = $(e.delegateTarget).index();
+    if (e.target.checked)
+    {
+        arr.push(i);
+        arr.sort();
+        $("#delete-nav-btn").removeClass("hide");
+        $('#reset-nav-wrapper').removeClass("blue");
+    } else
+    {
+        var s = arr.indexOf(i);
+        arr.splice(s, 1);
+        if (arr.length === 0)
+        {
+            $("#delete-nav-btn").addClass("hide");
+        }
+    }
+    console.log(arr);
+});
+
 /*
  tag的列表动态显示
  */
 
-$(".tag-list").click(function (e) {
-    if ($(e.delegateTarget).hasClass("active")) {
+$(".tag-list").click(function (e)
+{
+    if ($(e.delegateTarget).hasClass("active"))
+    {
         $(e.delegateTarget).find(".up-pointer").addClass("hide");
         $(e.delegateTarget).find(".down-pointer").removeClass("hide");
-    } else {
+    } else
+    {
         $(e.delegateTarget).find(".up-pointer").removeClass("hide");
         $(e.delegateTarget).find(".down-pointer").addClass("hide");
     }
 });
 
 //noinspection JSJQueryEfficiency
-$(".tag-item").mouseover(function (e) {
+$(".tag-item").mouseover(function (e)
+{
     $(e.delegateTarget).find(".tag-delete").removeClass("hide");
 });
 
 //noinspection JSJQueryEfficiency
-$(".tag-item").mouseleave(function (e) {
+$(".tag-item").mouseleave(function (e)
+{
     $(e.delegateTarget).find(".tag-delete").addClass("hide");
 });
 
 /*
  检测表单数据
  */
-function checkForm(k) {
+function checkForm(k)
+{
     var id = "#new-form" + ((k === -1) ? '' : ('-' + k));
     var b = 0;
-    $(id).find(":input").each(function () {
+    $(id).find(":input").each(function ()
+    {
         var vl = $(this).val();
-        if (vl === null || vl === "") {
+        if (vl === null || vl === "")
+        {
             b = 1;
         }
     });
-    if (b === 1) {
+    if (b === 1)
+    {
         alert("Please Fill Form!");
-    } else {
+    } else
+    {
         $(id).submit();
         $(id).modal('close');
     }
+}
+
+function delete_tag(name)
+{
+    window.location.href = "DeleteServlet?deleteString=" + name;
 }

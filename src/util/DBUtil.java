@@ -3,11 +3,15 @@ package util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import classes.Contact;
 import init.Initialization;
 
 public class DBUtil
@@ -105,8 +109,96 @@ public class DBUtil
 
     public static String getContactID(String contactName, String userID)
     {
-        String sql = "SELECT * FROM contact WHERE contactName=? AND userID=?";
+        String sql = "SELECT *\n" +
+                "FROM contact\n" +
+                "WHERE contactName = ? AND userID = ?";
         Map map = Initialization.getJDBCUtil().getMap(sql, new String[]{contactName, userID});
         return (String) map.get("contactID");
+    }
+
+    public static List<String> getInfoList(Object object)
+    {
+        List<String> list = new ArrayList<>();
+        try
+        {
+            Class c = object.getClass();
+            String source = "";
+            for (Method method : c.getMethods())
+            {
+                if (method.getName().toLowerCase().contains("get") && method.getName().toLowerCase().contains("list"))
+                {
+                    source += String.valueOf(method.invoke(object));
+                    break;
+                }
+            }
+            String[] temps = source.split("!");
+            list.addAll(Arrays.asList(temps));
+        } catch (IllegalAccessException | InvocationTargetException e)
+        {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static int deleteObject(Object object, String username)
+    {
+        int result = -1;
+        try
+        {
+            Class c = object.getClass();
+            String name = "";
+            for (Method method : c.getMethods())
+            {
+                if (method.getName().toLowerCase().contains("get") && method.getName().toLowerCase().contains("name"))
+                {
+                    name = String.valueOf(method.invoke(object));
+                    break;
+                }
+            }
+            String sql = "DELETE FROM " + c.getSimpleName().toLowerCase() + " WHERE ";
+            switch (c.getSimpleName().toLowerCase())
+            {
+                case "tag":
+                    String id = getTagID(name, username);
+                    sql += "tagID=?";
+                    result = Initialization.getJDBCUtil().update(sql, new String[]{id});
+                    break;
+                case "contact":
+                    break;
+            }
+        } catch (IllegalAccessException | InvocationTargetException e)
+        {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static List<Contact> searchContacts(String username, String searchString)
+    {
+        String contactSql = "SELECT\n" +
+                "  contactName,\n" +
+                "  phoneNumberList,\n" +
+                "  countryCode,\n" +
+                "  tag,\n" +
+                "  emailList\n" +
+                "FROM contact, user\n" +
+                "WHERE username = '" + username + "' AND contact.userID = user.userID AND\n" +
+                "      (contact.contactName LIKE '%" + searchString + "%' OR contact.phoneNumberList LIKE '%" + searchString + "%')";
+        List<Object> objectList = Initialization.getJDBCUtil().getObject(contactSql, new String[]{}, Contact.class);
+        List<Contact> contactList = new ArrayList<>();
+        for (Object object : objectList)
+        {
+            contactList.add((Contact) object);
+        }
+        return contactList;
+    }
+
+    public static String getTagID(String tagName, String username)
+    {
+        String sql = "SELECT tagID\n" +
+                "FROM tag\n" +
+                "WHERE tagName = ? AND tag.userID = ?";
+        Map map = Initialization.getJDBCUtil().getMap(sql, new String[]{tagName, UserUtil.getUserID(username)});
+        return (String) map.get("tagID");
     }
 }

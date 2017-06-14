@@ -27,10 +27,10 @@ public class RegisterServlet extends HttpServlet
         int code=Initialization.getJDBCUtil().update(sql, new String[]{username, password});
         if (code == 1)
         {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("login.jsp");
         } else
         {
-            response.sendRedirect("index.jsp?incorrect=password");
+            response.sendRedirect("login.jsp?incorrect=password");
         }
     }
 

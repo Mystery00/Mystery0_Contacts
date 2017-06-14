@@ -8,7 +8,6 @@
           <element id="module-output" name="Mystery0 Contacts" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="KotlinJavaRuntime" />
           <element id="library" level="project" name="lib" />
         </element>
       </element>

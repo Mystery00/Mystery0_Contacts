@@ -28,7 +28,7 @@ public class ForgetServlet extends HttpServlet
         int result = Initialization.getJDBCUtil().update(sql, new String[]{password, username});
         if (result == 1)
         {
-            response.sendRedirect("index.jsp?incorrect=forget");
+            response.sendRedirect("login.jsp?incorrect=forget");
         } else
         {
             response.sendRedirect("forget.jsp?incorrect=error");

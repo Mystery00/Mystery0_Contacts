@@ -23,7 +23,7 @@ public class LoginServlet extends HttpServlet
         String password = request.getParameter("password");
         if (!UserUtil.haveUser(username))
         {
-            response.sendRedirect("index.jsp?incorrect=username");
+            response.sendRedirect("login.jsp?incorrect=username");
             return;
         }
         String sql = "SELECT * FROM user WHERE username=? AND password=?";
@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet
             response.sendRedirect("GetDataServlet");
         } else
         {
-            response.sendRedirect("index.jsp?incorrect=password");
+            response.sendRedirect("login.jsp?incorrect=password");
         }
     }
 

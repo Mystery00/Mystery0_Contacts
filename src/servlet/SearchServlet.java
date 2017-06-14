@@ -13,12 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import classes.Contact;
 import classes.Tag;
 import init.Initialization;
+import util.DBUtil;
 
-@WebServlet(name = "GetDataServlet", urlPatterns = {"/GetDataServlet"})
-public class GetDataServlet extends HttpServlet
+@WebServlet(name = "SearchServlet", urlPatterns = {"/SearchServlet"})
+public class SearchServlet extends HttpServlet
 {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+        String searchString = request.getParameter("searchString");
         String username = null;
         for (Cookie cookie : request.getCookies())
         {
@@ -32,13 +34,15 @@ public class GetDataServlet extends HttpServlet
         {
             return;
         }
-        String tagSql = "SELECT tagName FROM tag,user WHERE username=? AND tag.userID=user.userID";
+        String tagSql = "SELECT tagName\n" +
+                "FROM tag, user\n" +
+                "WHERE username = ? AND tag.userID = user.userID";
         List<Object> tagList = Initialization.getJDBCUtil().getObject(tagSql, new String[]{username}, Tag.class);
-        String contactSql = "SELECT contactName,phoneNumberList,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID";
-        List<Object> contactList = Initialization.getJDBCUtil().getObject(contactSql, new String[]{username}, Contact.class);
+        List<Contact> contactList = DBUtil.searchContacts(username, searchString);
         request.getSession().setAttribute("tagList", tagList);
         request.getSession().setAttribute("contactList", contactList);
-        response.sendRedirect("/index.jsp");
+        request.getSession().setAttribute("message", "Searched " + contactList.size() + " items!");
+        response.sendRedirect("/GetDataServlet");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
