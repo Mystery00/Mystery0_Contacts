@@ -2,12 +2,24 @@ package classes;
 
 public class Contact
 {
+    private String ContactID;
+
     private String contactName;
     private String phoneNumberList;
     private String countryCode;
     private String tag;
     private String emailList;
     private String userID;
+
+    public String getContactID()
+    {
+        return ContactID;
+    }
+
+    public void setContactID(String contactID)
+    {
+        ContactID = contactID;
+    }
 
     public String getContactName()
     {

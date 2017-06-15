@@ -37,12 +37,12 @@
                 break;
             }
         }
-        String tagSql = "SELECT tagName FROM tag,user WHERE username=? AND tag.userID=user.userID";
+        String tagSql = "SELECT tagID,tagName FROM tag,user WHERE username=? AND tag.userID=user.userID";
         List<Object> tagList = Initialization.getJDBCUtil().getObject(tagSql, new String[]{username}, Tag.class);
         List<Object> contactList;
         if (request.getSession().getAttribute("contactList") == null)
         {
-            String contactSql = "SELECT contactName,phoneNumberList,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID";
+            String contactSql = "SELECT contactID,contactName,phoneNumberList,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID";
             contactList = Initialization.getJDBCUtil().getObject(contactSql, new String[]{username}, Contact.class);
         } else
         {
@@ -142,36 +142,12 @@
                                 <i class="material-icons right tag-delete hide"
                                    onclick="delete_data('<%=tag.getTagName()%>','tag')">delete
                                 </i>
-                                <i class="material-icons right tag-delete hide">edit</i>
+                                <i class="material-icons right tag-delete hide"
+                                   onclick="showEditTag(<%=index%>)">edit
+                                </i>
                             </a>
                         </li>
                     </ul>
-
-                    <!-- Modal Structure -->
-                    <div id="modal-edit-tag-<%=index%>" class="modal">
-                        <form id="form-edit-tag-<%=index%>" class="submit-form"
-                              action="InsertServlet"
-                              method="post">
-                            <input type="text" name="data-type" value="tag" title="contact" hidden>
-                            <input type="text" name="userID"
-                                   value="<%=UserUtil.getUserID(username)%>"
-                                   title="userID" hidden>
-                            <div class="modal-content">
-                                <h4>Edit Tag</h4>
-                                <div class="input-field col s12">
-                                    <input id="tagName<%=index%>" name="tagName" type="text"
-                                           class="validate">
-                                    <label for="tagName<%=index%>">Tag Name</label>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <a href="#" onclick="checkForm('form-edit-tag-',<%=index%>);"
-                                   class=" modal-action modal-close waves-effect waves-green btn-flat">
-                                    Done
-                                </a>
-                            </div>
-                        </form>
-                    </div>
                     <%
                         }
                     %>
@@ -235,6 +211,8 @@
                 <form id="form-edit-contact-<%=index%>" action="UpdateServlet" class="submit-form"
                       method="post">
                     <input type="text" name="data-type" value="contact" title="contact" hidden>
+                    <input type="text" name="contactID" value="<%=contact.getContactID()%>"
+                           title="contact" hidden>
                     <input type="text" name="userID" value="<%=UserUtil.getUserID(username)%>"
                            title="userID" hidden>
                     <div class="modal-content row">
@@ -296,6 +274,41 @@
                         <a href="#" onclick="checkForm('form-edit-contact-',<%=index%>);"
                            class="modal-action waves-effect waves-green btn">
                             <i class="material-icons">done_all</i>
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <%
+                }
+
+                index = -1;
+                for (Object object : tagList)
+                {
+                    Tag tag = (Tag) object;
+                    index++;
+            %>
+
+            <!-- Modal Structure -->
+            <div id="modal-edit-tag-<%=index%>" class="modal">
+                <form id="form-edit-tag-<%=index%>" class="submit-form"
+                      action="UpdateServlet" method="post">
+                    <input type="text" name="data-type" value="tag" title="tag" hidden>
+                    <input type="text" name="tagID" value="<%=tag.getTagID()%>" title="tag" hidden>
+                    <input type="text" name="userID"
+                           value="<%=UserUtil.getUserID(username)%>"
+                           title="userID" hidden>
+                    <div class="modal-content">
+                        <h4>Edit Tag</h4>
+                        <div class="input-field col s12">
+                            <input id="tagName<%=index%>" name="tagName" type="text"
+                                   class="validate" value="<%=tag.getTagName()%>">
+                            <label for="tagName<%=index%>">Tag Name</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" onclick="checkForm('form-edit-tag-',<%=index%>);"
+                           class=" modal-action modal-close waves-effect waves-green btn-flat">
+                            Done
                         </a>
                     </div>
                 </form>

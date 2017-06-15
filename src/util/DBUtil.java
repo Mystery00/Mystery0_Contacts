@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import classes.Contact;
+import classes.Tag;
 import init.Initialization;
 
 public class DBUtil
@@ -150,12 +150,14 @@ public class DBUtil
             switch (c.getSimpleName().toLowerCase())
             {
                 case "tag":
+                    Tag tag = (Tag) object;
                     sql += "tagID=?";
-                    result = Initialization.getJDBCUtil().update(sql, new String[]{getTagID(name, username)});
+                    result = Initialization.getJDBCUtil().update(sql, new String[]{tag.getTagID()});
                     break;
                 case "contact":
+                    Contact contact = (Contact) object;
                     sql += "contactID=?";
-                    result = Initialization.getJDBCUtil().update(sql, new String[]{getContactID(name, username)});
+                    result = Initialization.getJDBCUtil().update(sql, new String[]{contact.getContactID()});
                     break;
             }
         } catch (IllegalAccessException | InvocationTargetException e)
@@ -183,23 +185,5 @@ public class DBUtil
             contactList.add((Contact) object);
         }
         return contactList;
-    }
-
-    public static String getTagID(String tagName, String username)
-    {
-        String sql = "SELECT tagID\n" +
-                "FROM tag\n" +
-                "WHERE tagName = ? AND userID = ?";
-        Map map = Initialization.getJDBCUtil().getMap(sql, new String[]{tagName, UserUtil.getUserID(username)});
-        return (String) map.get("tagID");
-    }
-
-    public static String getContactID(String contactName, String username)
-    {
-        String sql = "SELECT contactID\n" +
-                "FROM contact\n" +
-                "WHERE contactName = ? AND userID = ?";
-        Map map = Initialization.getJDBCUtil().getMap(sql, new String[]{contactName, UserUtil.getUserID(username)});
-        return (String) map.get("contactID");
     }
 }

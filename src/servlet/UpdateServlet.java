@@ -39,15 +39,13 @@ public class UpdateServlet extends HttpServlet
                 Contact contact = (Contact) DBUtil.getObject(request, request.getParameterNames(), Contact.class);
                 if (contact == null)
                     return;
-                String contactID = DBUtil.getContactID(contact.getContactName(), username);
-                code = DBUtil.updateObject(contact, contactID);
+                code = DBUtil.updateObject(contact, contact.getContactID());
                 break;
             case "tag":
-                Tag tag = (Tag) DBUtil.getObject(request, request.getParameterNames(), Contact.class);
+                Tag tag = (Tag) DBUtil.getObject(request, request.getParameterNames(), Tag.class);
                 if (tag == null)
                     return;
-                String tagID = DBUtil.getContactID(tag.getTagName(), username);
-                code = DBUtil.updateObject(tag, tagID);
+                code = DBUtil.updateObject(tag, tag.getTagID());
                 break;
         }
         if (code > 0)

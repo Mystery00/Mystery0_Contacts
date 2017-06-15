@@ -107,3 +107,9 @@ function delete_data(name, type)
 {
     window.location.href = "DeleteServlet?deleteString=" + name + "&type=" + type;
 }
+
+function showEditTag(index)
+{
+    var id = '#modal-edit-tag-' + index;
+    $(id).modal('open');
+}
