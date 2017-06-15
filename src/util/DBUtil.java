@@ -107,16 +107,7 @@ public class DBUtil
         return -1;
     }
 
-    public static String getContactID(String contactName, String userID)
-    {
-        String sql = "SELECT *\n" +
-                "FROM contact\n" +
-                "WHERE contactName = ? AND userID = ?";
-        Map map = Initialization.getJDBCUtil().getMap(sql, new String[]{contactName, userID});
-        return (String) map.get("contactID");
-    }
-
-    public static List<String> getInfoList(Object object)
+    public static List<String> getInfoList(Object object, String type)
     {
         List<String> list = new ArrayList<>();
         try
@@ -125,7 +116,7 @@ public class DBUtil
             String source = "";
             for (Method method : c.getMethods())
             {
-                if (method.getName().toLowerCase().contains("get") && method.getName().toLowerCase().contains("list"))
+                if (method.getName().toLowerCase().contains(type) && method.getName().toLowerCase().contains("get") && method.getName().toLowerCase().contains("list"))
                 {
                     source += String.valueOf(method.invoke(object));
                     break;
@@ -159,11 +150,12 @@ public class DBUtil
             switch (c.getSimpleName().toLowerCase())
             {
                 case "tag":
-                    String id = getTagID(name, username);
                     sql += "tagID=?";
-                    result = Initialization.getJDBCUtil().update(sql, new String[]{id});
+                    result = Initialization.getJDBCUtil().update(sql, new String[]{getTagID(name, username)});
                     break;
                 case "contact":
+                    sql += "contactID=?";
+                    result = Initialization.getJDBCUtil().update(sql, new String[]{getContactID(name, username)});
                     break;
             }
         } catch (IllegalAccessException | InvocationTargetException e)
@@ -197,8 +189,17 @@ public class DBUtil
     {
         String sql = "SELECT tagID\n" +
                 "FROM tag\n" +
-                "WHERE tagName = ? AND tag.userID = ?";
+                "WHERE tagName = ? AND userID = ?";
         Map map = Initialization.getJDBCUtil().getMap(sql, new String[]{tagName, UserUtil.getUserID(username)});
         return (String) map.get("tagID");
+    }
+
+    public static String getContactID(String contactName, String username)
+    {
+        String sql = "SELECT contactID\n" +
+                "FROM contact\n" +
+                "WHERE contactName = ? AND userID = ?";
+        Map map = Initialization.getJDBCUtil().getMap(sql, new String[]{contactName, UserUtil.getUserID(username)});
+        return (String) map.get("contactID");
     }
 }

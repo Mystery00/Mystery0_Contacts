@@ -29,20 +29,21 @@ var arr = [];
 //noinspection JSJQueryEfficiency
 $(".list-item").on("click", 'input', function (e)
 {
-    var i = $(e.delegateTarget).index();
+    var i = $(e.delegateTarget).index() / 2;
+    var name = $("#contactShowName" + i).text();
     if (e.target.checked)
     {
-        arr.push(i);
-        arr.sort();
+        arr.push(name);
         $("#delete-nav-btn").removeClass("hide");
         $('#reset-nav-wrapper').removeClass("blue");
     } else
     {
-        var s = arr.indexOf(i);
+        var s = arr.indexOf(name);
         arr.splice(s, 1);
         if (arr.length === 0)
         {
             $("#delete-nav-btn").addClass("hide");
+            $('#reset-nav-wrapper').addClass("blue");
         }
     }
     console.log(arr);
@@ -102,7 +103,7 @@ function checkForm(k)
     }
 }
 
-function delete_tag(name)
+function delete_data(name, type)
 {
-    window.location.href = "DeleteServlet?deleteString=" + name;
+    window.location.href = "DeleteServlet?deleteString=" + name + "&type=" + type;
 }

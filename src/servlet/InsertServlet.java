@@ -36,7 +36,7 @@ public class InsertServlet extends HttpServlet
         }
         if (code != -1)
         {
-            response.sendRedirect("GetDataServlet");
+            response.sendRedirect("index.jsp");
         }
     }
 

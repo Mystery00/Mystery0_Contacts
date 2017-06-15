@@ -1,8 +1,9 @@
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="classes.Tag" %>
 <%@ page import="classes.Contact" %>
 <%@ page import="util.UserUtil" %>
 <%@ page import="util.DBUtil" %>
+<%@ page import="java.util.List" %>
+<%@ page import="init.Initialization" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,7 @@
 </head>
 <body>
     <%!
-        String username;
+        private String username;
         private String message = null;
     %>
     <%
@@ -28,17 +29,6 @@
             message = String.valueOf(request.getSession().getAttribute("message"));
             request.getSession().removeAttribute("message");
         }
-        ArrayList<Tag> tagArrayList1;
-        ArrayList<Contact> contactArrayList1;
-        if (request.getSession().getAttribute("tagList") == null || request.getSession().getAttribute("contactList") == null)
-        {
-            tagArrayList1 = new ArrayList<>();
-            contactArrayList1 = new ArrayList<>();
-        } else
-        {
-            tagArrayList1 = (ArrayList<Tag>) request.getSession().getAttribute("tagList");
-            contactArrayList1 = (ArrayList<Contact>) request.getSession().getAttribute("contactList");
-        }
         for (Cookie cookie : request.getCookies())
         {
             if (cookie.getName().equals("username"))
@@ -46,6 +36,17 @@
                 username = cookie.getValue();
                 break;
             }
+        }
+        String tagSql = "SELECT tagName FROM tag,user WHERE username=? AND tag.userID=user.userID";
+        List<Object> tagList = Initialization.getJDBCUtil().getObject(tagSql, new String[]{username}, Tag.class);
+        List<Object> contactList;
+        if (request.getSession().getAttribute("contactList") == null)
+        {
+            String contactSql = "SELECT contactName,phoneNumberList,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID";
+            contactList = Initialization.getJDBCUtil().getObject(contactSql, new String[]{username}, Contact.class);
+        } else
+        {
+            contactList = (List<Object>) request.getSession().getAttribute("contactList");
         }
     %>
     <header>
@@ -65,7 +66,7 @@
                 </form>
                 <ul id="reset-right" class="col s2 right">
                     <li class="hide" id="delete-nav-btn">
-                        <a href="#">
+                        <a href="#" onclick="delete_data(arr,'contact')">
                             <i class="material-icons">delete</i>
                         </a>
                     </li>
@@ -126,8 +127,9 @@
                         Tags
                     </a>
                     <%
-                        for (Tag tag : tagArrayList1)
+                        for (Object object : tagList)
                         {
+                            Tag tag = (Tag) object;
                     %>
                     <ul class="collapsible-body tag-item">
                         <li>
@@ -135,7 +137,7 @@
                                 <i class="material-icons">label</i>
                                 <%=tag.getTagName()%>
                                 <i class="material-icons right tag-delete hide"
-                                   onclick="delete_tag('<%=tag.getTagName()%>')">delete
+                                   onclick="delete_data('<%=tag.getTagName()%>','tag')">delete
                                 </i>
                             </a>
                         </li>
@@ -168,8 +170,9 @@
         <ul class="collection">
             <%
                 int i = -1;
-                for (Contact contact : contactArrayList1)
+                for (Object object : contactList)
                 {
+                    Contact contact = (Contact) object;
                     i++;
             %>
             <li class="collection-item avatar valign-wrapper list-item">
@@ -179,8 +182,8 @@
                     <input type="checkbox" class="filled-in" id="filled-in-box<%=i%>"/>
                     <label class="reset-checkbox" for="filled-in-box<%=i%>"></label>
                 </div>
-                <span class="title reset-content"><%=contact.getContactName()%></span>
-                <span><%=contact.getCountryCode() + DBUtil.getInfoList(contact).get(0)%></span>
+                <span id="contactShowName<%=i%>" class="title reset-content"><%=contact.getContactName()%></span>
+                <span><%=contact.getCountryCode() + DBUtil.getInfoList(contact, "phone").get(0)%></span>
                 <div class="reset-secondary-content valign-wrapper check-edit hide">
                     <a href="#edit-modal-<%=i%>" class="valign-wrapper">
                         <i class="material-icons">edit</i>

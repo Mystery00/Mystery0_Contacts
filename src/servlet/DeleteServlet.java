@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import classes.Contact;
 import classes.Tag;
 import util.DBUtil;
 
@@ -31,17 +32,39 @@ public class DeleteServlet extends HttpServlet
             return;
         }
         String deleteString = request.getParameter("deleteString");
-        System.out.println(deleteString);
-        Tag tag = new Tag();
-        tag.setTagName(deleteString);
-        if (DBUtil.deleteObject(tag, username) != -1)
+        String type = request.getParameter("type");
+        switch (type)
         {
-            request.getSession().setAttribute("message","Delete Done!");
-        } else
-        {
-            request.getSession().setAttribute("message","Delete failed!");
+            case "tag":
+                Tag tag = new Tag();
+                tag.setTagName(deleteString);
+                if (DBUtil.deleteObject(tag, username) != -1)
+                {
+                    request.getSession().setAttribute("message", "Tag Delete Done!");
+                } else
+                {
+                    request.getSession().setAttribute("message", "Tag Delete failed!");
+                }
+                break;
+            case "contact":
+                String[] deleteStrings = deleteString.split(",");
+                Contact contact = new Contact();
+                int result = 0;
+                for (String temp : deleteStrings)
+                {
+                    contact.setContactName(temp);
+                    result += DBUtil.deleteObject(contact, username);
+                }
+                if (result >= deleteStrings.length)
+                {
+                    request.getSession().setAttribute("message", "Contact Delete Done!");
+                } else
+                {
+                    request.getSession().setAttribute("message", "Contact Delete failed!");
+                }
+                break;
         }
-        response.sendRedirect("/GetDataServlet");
+        response.sendRedirect("index.jsp");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

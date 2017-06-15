@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet
         {
             Cookie cookie = new Cookie("username", username);
             response.addCookie(cookie);
-            response.sendRedirect("GetDataServlet");
+            response.sendRedirect("index.jsp");
         } else
         {
             response.sendRedirect("login.jsp?incorrect=password");

@@ -34,15 +34,10 @@ public class SearchServlet extends HttpServlet
         {
             return;
         }
-        String tagSql = "SELECT tagName\n" +
-                "FROM tag, user\n" +
-                "WHERE username = ? AND tag.userID = user.userID";
-        List<Object> tagList = Initialization.getJDBCUtil().getObject(tagSql, new String[]{username}, Tag.class);
         List<Contact> contactList = DBUtil.searchContacts(username, searchString);
-        request.getSession().setAttribute("tagList", tagList);
         request.getSession().setAttribute("contactList", contactList);
         request.getSession().setAttribute("message", "Searched " + contactList.size() + " items!");
-        response.sendRedirect("/GetDataServlet");
+        response.sendRedirect("index.jsp");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

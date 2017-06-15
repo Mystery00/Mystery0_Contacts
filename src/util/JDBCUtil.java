@@ -144,7 +144,7 @@ public class JDBCUtil
     {
         List list = getList(sql, params);
         if (list.isEmpty())
-            return null;
+            return new HashMap();
         return (Map) list.get(0);
     }
 
