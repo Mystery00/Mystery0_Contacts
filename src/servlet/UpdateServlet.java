@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import classes.Contact;
+import classes.Tag;
 import util.DBUtil;
 
 @WebServlet(name = "UpdateServlet", urlPatterns = {"/UpdateServlet"})
@@ -38,10 +39,15 @@ public class UpdateServlet extends HttpServlet
                 Contact contact = (Contact) DBUtil.getObject(request, request.getParameterNames(), Contact.class);
                 if (contact == null)
                     return;
-                String id = DBUtil.getContactID(contact.getContactName(), username);
-                code = DBUtil.updateObject(contact, id);
+                String contactID = DBUtil.getContactID(contact.getContactName(), username);
+                code = DBUtil.updateObject(contact, contactID);
                 break;
             case "tag":
+                Tag tag = (Tag) DBUtil.getObject(request, request.getParameterNames(), Contact.class);
+                if (tag == null)
+                    return;
+                String tagID = DBUtil.getContactID(tag.getTagName(), username);
+                code = DBUtil.updateObject(tag, tagID);
                 break;
         }
         if (code > 0)

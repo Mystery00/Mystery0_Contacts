@@ -128,9 +128,11 @@
                         Tags
                     </a>
                     <%
+                        int index = -1;
                         for (Object object : tagList)
                         {
                             Tag tag = (Tag) object;
+                            index++;
                     %>
                     <ul class="collapsible-body tag-item">
                         <li>
@@ -140,9 +142,36 @@
                                 <i class="material-icons right tag-delete hide"
                                    onclick="delete_data('<%=tag.getTagName()%>','tag')">delete
                                 </i>
+                                <i class="material-icons right tag-delete hide">edit</i>
                             </a>
                         </li>
                     </ul>
+
+                    <!-- Modal Structure -->
+                    <div id="modal-edit-tag-<%=index%>" class="modal">
+                        <form id="form-edit-tag-<%=index%>" class="submit-form"
+                              action="InsertServlet"
+                              method="post">
+                            <input type="text" name="data-type" value="tag" title="contact" hidden>
+                            <input type="text" name="userID"
+                                   value="<%=UserUtil.getUserID(username)%>"
+                                   title="userID" hidden>
+                            <div class="modal-content">
+                                <h4>Edit Tag</h4>
+                                <div class="input-field col s12">
+                                    <input id="tagName<%=index%>" name="tagName" type="text"
+                                           class="validate">
+                                    <label for="tagName<%=index%>">Tag Name</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" onclick="checkForm('form-edit-tag-',<%=index%>);"
+                                   class=" modal-action modal-close waves-effect waves-green btn-flat">
+                                    Done
+                                </a>
+                            </div>
+                        </form>
+                    </div>
                     <%
                         }
                     %>
@@ -178,32 +207,33 @@
 
         <ul class="collection">
             <%
-                int i = -1;
+                index = -1;
                 for (Object object : contactList)
                 {
                     Contact contact = (Contact) object;
-                    i++;
+                    index++;
             %>
             <li class="collection-item avatar valign-wrapper list-item">
                 <img src="img/head/<%=(int) (Math.random() * 19 + 1)%>.png" class="circle
             reset-img-head check-img">
                 <div class="circle check-checkbox hide">
-                    <input type="checkbox" class="filled-in" id="filled-in-box<%=i%>"/>
-                    <label class="reset-checkbox" for="filled-in-box<%=i%>"></label>
+                    <input type="checkbox" class="filled-in" id="filled-in-box<%=index%>"/>
+                    <label class="reset-checkbox" for="filled-in-box<%=index%>"></label>
                 </div>
-                <span id="contactShowName<%=i%>"
+                <span id="contactShowName<%=index%>"
                       class="title reset-content"><%=contact.getContactName()%></span>
                 <span><%=contact.getCountryCode() + DBUtil.getInfoList(contact, "phone").get(0)%></span>
                 <div class="reset-secondary-content valign-wrapper check-edit hide">
-                    <a href="#edit-modal-<%=i%>" class="valign-wrapper">
+                    <a href="#modal-edit-contact-<%=index%>" class="valign-wrapper">
                         <i class="material-icons">edit</i>
                     </a>
                 </div>
             </li>
 
             <!-- Modal Structure -->
-            <div id="edit-modal-<%=i%>" class="modal modal-fixed-footer">
-                <form id="new-form-<%=i%>" action="UpdateServlet" class="submit-form" method="post">
+            <div id="modal-edit-contact-<%=index%>" class="modal modal-fixed-footer">
+                <form id="form-edit-contact-<%=index%>" action="UpdateServlet" class="submit-form"
+                      method="post">
                     <input type="text" name="data-type" value="contact" title="contact" hidden>
                     <input type="text" name="userID" value="<%=UserUtil.getUserID(username)%>"
                            title="userID" hidden>
@@ -213,23 +243,24 @@
                             <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
                                 account_circle
                             </i>
-                            <input id="contactName<%=i%>" value="<%=contact.getContactName()%>"
+                            <input id="contactName<%=index%>" value="<%=contact.getContactName()%>"
                                    name="contactName" type="text" class="validate">
-                            <label for="contactName<%=i%>">Name</label>
+                            <label for="contactName<%=index%>">Name</label>
                         </div>
                         <div class="input-field col s12">
                             <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
                                 smartphone
                             </i>
-                            <input id="phoneNumber<%=i%>" value="<%=contact.getPhoneNumberList()%>"
+                            <input id="phoneNumber<%=index%>"
+                                   value="<%=contact.getPhoneNumberList()%>"
                                    name="phoneNumber" type="number" class="validate">
-                            <label for="phoneNumber<%=i%>">Phone</label>
+                            <label for="phoneNumber<%=index%>">Phone</label>
                         </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
                                 language
                             </i>
-                            <select id="countryCode<%=i%>" class="icons" name="countryCode">
+                            <select id="countryCode<%=index%>" class="icons" name="countryCode">
                                 <option disabled <%=contact.getCountryCode().equals("") ? "selected" : ""%>>
                                     Choose your Country
                                 </option>
@@ -241,28 +272,28 @@
                                 </option>
                                 <option value="other">Other</option>
                             </select>
-                            <label for="countryCode<%=i%>">Country</label>
+                            <label for="countryCode<%=index%>">Country</label>
                         </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
                                 label
                             </i>
-                            <input id="tag<%=i%>" value="<%=contact.getTag()%>" name="tag"
+                            <input id="tag<%=index%>" value="<%=contact.getTag()%>" name="tag"
                                    type="text"
                                    class="validate">
-                            <label for="tag<%=i%>">Tag</label>
+                            <label for="tag<%=index%>">Tag</label>
                         </div>
                         <div class="input-field col s12">
                             <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
                                 email
                             </i>
-                            <input id="emailList<%=i%>" value="<%=contact.getEmailList()%>"
+                            <input id="emailList<%=index%>" value="<%=contact.getEmailList()%>"
                                    name="emailList" type="email" class="validate">
-                            <label for="emailList<%=i%>">E-mail</label>
+                            <label for="emailList<%=index%>">E-mail</label>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <a href="#" onclick="checkForm('new-form-',<%=i%>);"
+                        <a href="#" onclick="checkForm('form-edit-contact-',<%=index%>);"
                            class="modal-action waves-effect waves-green btn">
                             <i class="material-icons">done_all</i>
                         </a>
@@ -275,8 +306,8 @@
         </ul>
 
         <!-- Modal Structure -->
-        <div id="new-modal" class="modal modal-fixed-footer">
-            <form id="new-form" class="submit-form" action="InsertServlet" method="post">
+        <div id="modal-new-contact" class="modal modal-fixed-footer">
+            <form id="form-new-contact" class="submit-form" action="InsertServlet" method="post">
                 <input type="text" name="data-type" value="contact" title="contact" hidden>
                 <input type="text" name="userID" value="<%=UserUtil.getUserID(username)%>"
                        title="userID" hidden>
@@ -323,7 +354,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" onclick="checkForm('new-form',-1);"
+                    <a href="#" onclick="checkForm('form-new-contact',-1);"
                        class="modal-action waves-effect waves-green btn">
                         <i class="material-icons">done_all</i>
                     </a>
@@ -331,31 +362,32 @@
             </form>
         </div>
 
-        <a id="reset-floating-button" href="#new-modal"
-           class="btn-floating btn-large waves-effect waves-light red right">
-            <i class="material-icons">add</i>
-        </a>
-
         <!-- Modal Structure -->
         <div id="modal-new-tag" class="modal">
-            <form id="new-tag-form" class="submit-form" action="InsertServlet" method="post">
+            <form id="form-new-tag" class="submit-form" action="InsertServlet" method="post">
                 <input type="text" name="data-type" value="tag" title="contact" hidden>
                 <input type="text" name="userID" value="<%=UserUtil.getUserID(username)%>"
                        title="userID" hidden>
-                <div class="modal-content">
+                <div class="modal-content row">
                     <h4>Create New Tag</h4>
                     <div class="input-field col s12">
-                        <input id="tagName" name="tagName" type="text" class="validate">
+                        <input id="tagName" name="tagName" type="text" class="validate" length="10">
                         <label for="tagName">Tag Name</label>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" onclick="checkForm('new-tag-form',-1);" class=" modal-action modal-close waves-effect waves-green btn-flat">
+                    <a href="#" onclick="checkForm('form-new-tag',-1);"
+                       class=" modal-action modal-close waves-effect waves-green btn-flat">
                         Create
                     </a>
                 </div>
             </form>
         </div>
+
+        <a id="reset-floating-button" href="#modal-new-contact"
+           class="btn-floating btn-large waves-effect waves-light red right">
+            <i class="material-icons">add</i>
+        </a>
     </main>
 
     <footer class="page-footer blue">
@@ -401,7 +433,9 @@
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript">
         // Initialize collapse button
-        $(".button-collapse").sideNav();
+        $(".button-collapse").sideNav({
+            menuWidth: 360 // Default is 240
+        });
         // Initialize collapsible (uncomment the line below if you use the dropdown variation)
         $('.collapsible').collapsible();
 
@@ -411,6 +445,8 @@
             $('.modal').modal();
 
             $('select').material_select();
+
+            $('input#tagName').characterCounter();
         });
         <%
         if (message!=null)
