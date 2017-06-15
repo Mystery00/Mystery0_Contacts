@@ -81,9 +81,9 @@ $(".tag-item").mouseleave(function (e)
 /*
  检测表单数据
  */
-function checkForm(k)
+function checkForm(name, k)
 {
-    var id = "#new-form" + ((k === -1) ? '' : ('-' + k));
+    var id = "#" + name + ((k === -1) ? '' : k);
     var b = 0;
     $(id).find(":input").each(function ()
     {
@@ -95,7 +95,7 @@ function checkForm(k)
     });
     if (b === 1)
     {
-        alert("Please Fill Form!");
+        Materialize.toast('Please Fill Form!', 3000);
     } else
     {
         $(id).submit();

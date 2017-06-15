@@ -47,6 +47,7 @@
         } else
         {
             contactList = (List<Object>) request.getSession().getAttribute("contactList");
+            request.getSession().removeAttribute("contactList");
         }
     %>
     <header>
@@ -145,6 +146,14 @@
                     <%
                         }
                     %>
+                    <ul class="collapsible-body">
+                        <li>
+                            <a href="#modal-new-tag">
+                                <i class="material-icons">add</i>
+                                Create Tag
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </li>
@@ -182,7 +191,8 @@
                     <input type="checkbox" class="filled-in" id="filled-in-box<%=i%>"/>
                     <label class="reset-checkbox" for="filled-in-box<%=i%>"></label>
                 </div>
-                <span id="contactShowName<%=i%>" class="title reset-content"><%=contact.getContactName()%></span>
+                <span id="contactShowName<%=i%>"
+                      class="title reset-content"><%=contact.getContactName()%></span>
                 <span><%=contact.getCountryCode() + DBUtil.getInfoList(contact, "phone").get(0)%></span>
                 <div class="reset-secondary-content valign-wrapper check-edit hide">
                     <a href="#edit-modal-<%=i%>" class="valign-wrapper">
@@ -212,7 +222,7 @@
                                 smartphone
                             </i>
                             <input id="phoneNumber<%=i%>" value="<%=contact.getPhoneNumberList()%>"
-                                   name="phoneNumber" type="text" class="validate">
+                                   name="phoneNumber" type="number" class="validate">
                             <label for="phoneNumber<%=i%>">Phone</label>
                         </div>
                         <div class="input-field col s6">
@@ -247,14 +257,13 @@
                                 email
                             </i>
                             <input id="emailList<%=i%>" value="<%=contact.getEmailList()%>"
-                                   name="emailList"
-                                   type="text" class="validate">
+                                   name="emailList" type="email" class="validate">
                             <label for="emailList<%=i%>">E-mail</label>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <a href="#" onclick="checkForm(<%=i%>);"
-                           class="modal-action modal-close waves-effect waves-green btn">
+                        <a href="#" onclick="checkForm('new-form-',<%=i%>);"
+                           class="modal-action waves-effect waves-green btn">
                             <i class="material-icons">done_all</i>
                         </a>
                     </div>
@@ -267,8 +276,7 @@
 
         <!-- Modal Structure -->
         <div id="new-modal" class="modal modal-fixed-footer">
-            <form id="new-form" class="submit-form"
-                  action="InsertServlet" method="post">
+            <form id="new-form" class="submit-form" action="InsertServlet" method="post">
                 <input type="text" name="data-type" value="contact" title="contact" hidden>
                 <input type="text" name="userID" value="<%=UserUtil.getUserID(username)%>"
                        title="userID" hidden>
@@ -285,7 +293,7 @@
                         <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
                             smartphone
                         </i>
-                        <input id="phoneNumber" name="phoneNumber" type="text" class="validate">
+                        <input id="phoneNumber" name="phoneNumber" type="number" class="validate">
                         <label for="phoneNumber">Phone</label>
                     </div>
                     <div class="input-field col s6">
@@ -310,12 +318,12 @@
                         <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
                             email
                         </i>
-                        <input id="emailList" name="emailList" type="text" class="validate">
+                        <input id="emailList" name="emailList" type="email" class="validate">
                         <label for="emailList">E-mail</label>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" onclick="checkForm(-1);"
+                    <a href="#" onclick="checkForm('new-form',-1);"
                        class="modal-action waves-effect waves-green btn">
                         <i class="material-icons">done_all</i>
                     </a>
@@ -325,10 +333,29 @@
 
         <a id="reset-floating-button" href="#new-modal"
            class="btn-floating btn-large waves-effect waves-light red right">
-            <i
-                    class="material-icons">add
-            </i>
+            <i class="material-icons">add</i>
         </a>
+
+        <!-- Modal Structure -->
+        <div id="modal-new-tag" class="modal">
+            <form id="new-tag-form" class="submit-form" action="InsertServlet" method="post">
+                <input type="text" name="data-type" value="tag" title="contact" hidden>
+                <input type="text" name="userID" value="<%=UserUtil.getUserID(username)%>"
+                       title="userID" hidden>
+                <div class="modal-content">
+                    <h4>Create New Tag</h4>
+                    <div class="input-field col s12">
+                        <input id="tagName" name="tagName" type="text" class="validate">
+                        <label for="tagName">Tag Name</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" onclick="checkForm('new-tag-form',-1);" class=" modal-action modal-close waves-effect waves-green btn-flat">
+                        Create
+                    </a>
+                </div>
+            </form>
+        </div>
     </main>
 
     <footer class="page-footer blue">
@@ -391,6 +418,7 @@
         %>
         Materialize.toast('<%=message%>', 3000);
         <%
+        message=null;
             }
         %>
     </script>

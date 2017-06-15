@@ -32,10 +32,15 @@ public class InsertServlet extends HttpServlet
                 code = DBUtil.saveObject(contact);
                 break;
             case "tag":
+                Tag tag = (Tag) DBUtil.getObject(request, request.getParameterNames(), Tag.class);
+                if (tag == null)
+                    return;
+                code = DBUtil.saveObject(tag);
                 break;
         }
         if (code != -1)
         {
+            request.getSession().setAttribute("message", "Create Successful!");
             response.sendRedirect("index.jsp");
         }
     }
