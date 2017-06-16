@@ -19,23 +19,27 @@
     <title>Index</title>
 </head>
 <body>
-    <%!
-        private String username;
-        private String message = null;
-    %>
     <%
+        String username = null;
+        String message = null;
         if (request.getSession().getAttribute("message") != null && !request.getSession().getAttribute("message").equals(""))
         {
             message = String.valueOf(request.getSession().getAttribute("message"));
             request.getSession().removeAttribute("message");
         }
-        for (Cookie cookie : request.getCookies())
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies)
         {
             if (cookie.getName().equals("username"))
             {
                 username = cookie.getValue();
                 break;
             }
+        }
+        if (username == null)
+        {
+            response.sendRedirect("login.jsp");
+            return;
         }
         String tagSql = "SELECT tagID,tagName FROM tag,user WHERE username=? AND tag.userID=user.userID";
         List<Object> tagList = Initialization.getJDBCUtil().getObject(tagSql, new String[]{username}, Tag.class);
@@ -177,7 +181,7 @@
         <!-- Dropdown Structure -->
         <ul id='dropdown' class='dropdown-content'>
             <li>
-                <a href="#">Logout</a>
+                <a href="logout.jsp">Logout</a>
             </li>
         </ul>
 
@@ -384,7 +388,7 @@
                 <div class="modal-content row">
                     <h4>Create New Tag</h4>
                     <div class="input-field col s12">
-                        <input id="tagName" name="tagName" type="text" class="validate" length="10">
+                        <input id="tagName" name="tagName" type="text" class="validate">
                         <label for="tagName">Tag Name</label>
                     </div>
                 </div>
@@ -458,8 +462,6 @@
             $('.modal').modal();
 
             $('select').material_select();
-
-            $('input#tagName').characterCounter();
         });
         <%
         if (message!=null)

@@ -31,6 +31,7 @@ public class LoginServlet extends HttpServlet
         if (list.size() == 1)
         {
             Cookie cookie = new Cookie("username", username);
+            cookie.setMaxAge(86400);
             response.addCookie(cookie);
             response.sendRedirect("index.jsp");
         } else
