@@ -4,6 +4,7 @@
 <%@ page import="util.DBUtil" %>
 <%@ page import="java.util.List" %>
 <%@ page import="init.Initialization" %>
+<%@ page import="util.PageBean" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,10 +23,16 @@
 <%
     String username = null;
     String message = null;
+    int pageIndex = 1;
+    int totalPages = 1;
     if (request.getSession().getAttribute("message") != null && !request.getSession().getAttribute("message").equals(""))
     {
         message = String.valueOf(request.getSession().getAttribute("message"));
         request.getSession().removeAttribute("message");
+    }
+    if (request.getParameter("index") != null && !request.getParameter("index").equals(""))
+    {
+        pageIndex = Integer.parseInt(request.getParameter("index"));
     }
     Cookie[] cookies = request.getCookies();
     for (Cookie cookie : cookies)
@@ -47,7 +54,9 @@
     if (request.getSession().getAttribute("contactList") == null)
     {
         String contactSql = "SELECT contactID,contactName,phoneNumberList,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID";
-        contactList = Initialization.getJDBCUtil().getObject(contactSql, new String[]{username}, Contact.class);
+        PageBean pageBean = Initialization.getJDBCUtil().getPageBean(contactSql, new String[]{username}, pageIndex);
+        totalPages = pageBean.getTotalPages();
+        contactList = Initialization.getJDBCUtil().getObjectFromList(Contact.class, pageBean.getData());
     } else
     {
         contactList = (List<Object>) request.getSession().getAttribute("contactList");
@@ -258,7 +267,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="modal-action waves-effect waves-green btn">
+                    <a href="#" onclick="checkForm('form-edit-contact-',<%=index%>);"
+                       class="modal-action waves-effect waves-green btn">
                         <i class="material-icons">done_all</i>
                     </a>
                 </div>
@@ -381,40 +391,24 @@
 <footer class="page-footer blue">
     <div class="container center-align">
         <ul class="pagination">
-            <li class="disabled blue">
-                <a href="#">
+            <li class="<%=((pageIndex==1)?"disabled":"")%> blue">
+                <a href="<%=((pageIndex==1)?"#":"index.jsp?index="+(pageIndex-1))%>">
                     <i class="material-icons">chevron_left</i>
                 </a>
             </li>
-            <li class="active blue darken-1">
-                <a href="#">1</a>
+            <%
+                for (int a = 1; a <= totalPages; a++)
+                {
+            %>
+            <li class="<%=((pageIndex==a)?"active darken-1":"waves-effect")%> blue">
+                <a href="<%=((pageIndex==a)?"#":"index.jsp?index="+a)%>"><%=a%>
+                </a>
             </li>
-            <li class="waves-effect blue">
-                <a href="#">2</a>
-            </li>
-            <li class="waves-effect blue">
-                <a href="#">3</a>
-            </li>
-            <li class="waves-effect blue">
-                <a href="#">4</a>
-            </li>
-            <li class="waves-effect blue">
-                <a href="#">5</a>
-            </li>
-            <li class="waves-effect blue">
-                <a href="#">6</a>
-            </li>
-            <li class="waves-effect blue">
-                <a href="#">7</a>
-            </li>
-            <li class="waves-effect blue">
-                <a href="#">8</a>
-            </li>
-            <li class="waves-effect blue">
-                <a href="#">9</a>
-            </li>
-            <li class="waves-effect blue">
-                <a href="#">
+            <%
+                }
+            %>
+            <li class="<%=((pageIndex==totalPages)?"disabled":"")%> waves-effect blue">
+                <a href="<%=((pageIndex==totalPages)?"#":"index.jsp?index="+(pageIndex+1))%>">
                     <i class="material-icons">chevron_right</i>
                 </a>
             </li>

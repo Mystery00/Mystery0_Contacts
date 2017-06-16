@@ -1,7 +1,5 @@
 package util;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
@@ -12,8 +10,10 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class JDBCUtil
 {
@@ -22,7 +22,7 @@ public class JDBCUtil
     private String URL;
     private Connection connection;
     private PreparedStatement preparedStatement;
-    private int pageSize = 3;
+    private int pageSize = 5;
 
     public JDBCUtil(String databaseName)
     {
@@ -126,6 +126,36 @@ public class JDBCUtil
             resultSet.close();
             return list;
         } catch (IllegalAccessException | InstantiationException | SQLException | InvocationTargetException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Object> getObjectFromList(Class c, List list)
+    {
+        try
+        {
+            List<Object> tempList = new ArrayList<>();
+            for (Object obj1 : list)
+            {
+                Map map = (Map) obj1;
+                Object object = c.newInstance();
+                for (Object obj2 : map.keySet())
+                {
+                    String key = String.valueOf(obj2);
+                    for (Method method : c.getMethods())
+                    {
+                        if (method.getName().toLowerCase().contains("set") && method.getName().toLowerCase().contains(key.toLowerCase()))
+                        {
+                            method.invoke(object, map.get(key));
+                        }
+                    }
+                }
+                tempList.add(object);
+            }
+            return tempList;
+        } catch (IllegalAccessException | InstantiationException | InvocationTargetException e)
         {
             e.printStackTrace();
         }
