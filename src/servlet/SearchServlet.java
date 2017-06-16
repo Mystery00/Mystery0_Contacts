@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import classes.Contact;
-import classes.Tag;
-import init.Initialization;
 import util.DBUtil;
 
 @WebServlet(name = "SearchServlet", urlPatterns = {"/SearchServlet"})
@@ -36,7 +34,8 @@ public class SearchServlet extends HttpServlet
         }
         List<Contact> contactList = DBUtil.searchContacts(username, searchString);
         request.getSession().setAttribute("contactList", contactList);
-        request.getSession().setAttribute("message", "Searched " + contactList.size() + " items!");
+        if (!request.getParameter("searchString").equals(""))
+            request.getSession().setAttribute("message", "Searched " + contactList.size() + " items!");
         response.sendRedirect("index.jsp");
     }
 

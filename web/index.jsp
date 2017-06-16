@@ -62,7 +62,7 @@
                 </a>
                 <form class="col s6" action="SearchServlet" method="post">
                     <div class="input-field">
-                        <input name="searchString" id="search" type="search" required>
+                        <input name="searchString" id="search" type="search">
                         <label class="label-icon" for="search">
                             <i class="material-icons">search</i>
                         </label>
@@ -261,8 +261,7 @@
                                 label
                             </i>
                             <input id="tag<%=index%>" value="<%=contact.getTag()%>" name="tag"
-                                   type="text"
-                                   class="validate">
+                                   type="text" class="validate">
                             <label for="tag<%=index%>">Tag</label>
                         </div>
                         <div class="input-field col s12">
@@ -469,7 +468,6 @@
         %>
         Materialize.toast('<%=message%>', 3000);
         <%
-        message=null;
             }
         %>
     </script>
