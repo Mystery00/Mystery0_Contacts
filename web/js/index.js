@@ -103,9 +103,9 @@ function checkForm(name, k)
     }
 }
 
-function delete_data(name, type)
+function delete_data(name, type, id)
 {
-    window.location.href = "DeleteServlet?deleteString=" + name + "&type=" + type;
+    window.location.href = "DeleteServlet?deleteString=" + name + "&type=" + type + "&id=" + id;
 }
 
 function showEditTag(index)

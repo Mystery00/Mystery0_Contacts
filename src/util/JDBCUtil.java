@@ -81,6 +81,24 @@ public class JDBCUtil
         }
     }
 
+    private void setParams(String sql, List<String> params)
+    {
+        try
+        {
+            preparedStatement = getPreparedStatement(sql);
+            if (params != null)
+            {
+                for (int i = 0; i < params.size(); i++)
+                {
+                    preparedStatement.setObject(i + 1, params.get(i));
+                }
+            }
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     public List<Object> getObject(String sql, String[] params, Class c)
     {
         try
@@ -149,6 +167,20 @@ public class JDBCUtil
     }
 
     public int update(String sql, String[] params)
+    {
+        int recNo = -1;
+        try
+        {
+            setParams(sql, params);
+            recNo = preparedStatement.executeUpdate();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return recNo;
+    }
+
+    public int update(String sql, List<String> params)
     {
         int recNo = -1;
         try

@@ -16,7 +16,7 @@ public class Initialization
                 "  `userType` VARCHAR(45) NOT NULL,\n" +
                 "  PRIMARY KEY (`userID`))\n" +
                 "DEFAULT CHARACTER SET = utf8;";
-        getJDBCUtil().update(sql1, null);
+        getJDBCUtil().update(sql1, new String[]{});
 
         String sql2 = "CREATE TABLE IF NOT EXISTS `mystery0_contacts`.`contact` (\n" +
                 "  `contactID` INT NOT NULL AUTO_INCREMENT,\n" +
@@ -29,7 +29,7 @@ public class Initialization
                 "  `userID` VARCHAR(45) NOT NULL,\n" +
                 "  PRIMARY KEY (`contactID`))\n" +
                 "  DEFAULT CHARACTER SET = utf8;";
-        getJDBCUtil().update(sql2, null);
+        getJDBCUtil().update(sql2, new String[]{});
 
         String sql3 = "CREATE TABLE IF NOT EXISTS `mystery0_contacts`.`tag` (\n" +
                 "  `tagID` INT NOT NULL AUTO_INCREMENT,\n" +
@@ -37,7 +37,7 @@ public class Initialization
                 "  `userID` VARCHAR(45) NOT NULL,\n" +
                 "  PRIMARY KEY (`tagID`))\n" +
                 "  DEFAULT CHARACTER SET = utf8;";
-        getJDBCUtil().update(sql3, null);
+        getJDBCUtil().update(sql3, new String[]{});
     }
 
     public static JDBCUtil getJDBCUtil()

@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,27 +17,15 @@ public class DeleteServlet extends HttpServlet
 {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        String username = null;
-        for (Cookie cookie : request.getCookies())
-        {
-            if (cookie.getName().equals("username"))
-            {
-                username = cookie.getValue();
-                break;
-            }
-        }
-        if (username == null)
-        {
-            return;
-        }
         String deleteString = request.getParameter("deleteString");
         String type = request.getParameter("type");
         switch (type)
         {
             case "tag":
                 Tag tag = new Tag();
+                tag.setTagID(request.getParameter("id"));
                 tag.setTagName(deleteString);
-                if (DBUtil.deleteObject(tag, username) != -1)
+                if (DBUtil.deleteObject(tag) > 0)
                 {
                     request.getSession().setAttribute("message", "Tag Delete Done!");
                 } else
@@ -53,7 +40,7 @@ public class DeleteServlet extends HttpServlet
                 for (String temp : deleteStrings)
                 {
                     contact.setContactName(temp);
-                    result += DBUtil.deleteObject(contact, username);
+                    result += DBUtil.deleteObject(contact);
                 }
                 if (result >= deleteStrings.length)
                 {

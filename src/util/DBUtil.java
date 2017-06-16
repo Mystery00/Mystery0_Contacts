@@ -47,17 +47,21 @@ public class DBUtil
             Class c = object.getClass();
             StringBuilder sql = new StringBuilder("INSERT INTO " + c.getSimpleName().toLowerCase() + "(");
             Field[] fields = c.getDeclaredFields();
-            String[] params = new String[fields.length];
+            List<String> params = new ArrayList<>();
             StringBuilder paramsString = new StringBuilder();
             for (int i = 0; i < fields.length; i++)
             {
+                if (fields[i].getName().toLowerCase().contains(c.getSimpleName().toLowerCase() + "id"))
+                {
+                    continue;
+                }
                 paramsString.append("?");
                 sql.append(fields[i].getName());
                 for (Method method : c.getMethods())
                 {
                     if (method.getName().toLowerCase().contains("get") && method.getName().toLowerCase().contains(fields[i].getName().toLowerCase()))
                     {
-                        params[i] = String.valueOf(method.invoke(object));
+                        params.add(String.valueOf(method.invoke(object)));
                     }
                 }
                 if (i < fields.length - 1)
@@ -131,38 +135,23 @@ public class DBUtil
         return list;
     }
 
-    public static int deleteObject(Object object, String username)
+    public static int deleteObject(Object object)
     {
         int result = -1;
-        try
+        Class c = object.getClass();
+        String sql = "DELETE FROM " + c.getSimpleName().toLowerCase() + " WHERE ";
+        switch (c.getSimpleName().toLowerCase())
         {
-            Class c = object.getClass();
-            String name = "";
-            for (Method method : c.getMethods())
-            {
-                if (method.getName().toLowerCase().contains("get") && method.getName().toLowerCase().contains("name"))
-                {
-                    name = String.valueOf(method.invoke(object));
-                    break;
-                }
-            }
-            String sql = "DELETE FROM " + c.getSimpleName().toLowerCase() + " WHERE ";
-            switch (c.getSimpleName().toLowerCase())
-            {
-                case "tag":
-                    Tag tag = (Tag) object;
-                    sql += "tagID=?";
-                    result = Initialization.getJDBCUtil().update(sql, new String[]{tag.getTagID()});
-                    break;
-                case "contact":
-                    Contact contact = (Contact) object;
-                    sql += "contactID=?";
-                    result = Initialization.getJDBCUtil().update(sql, new String[]{contact.getContactID()});
-                    break;
-            }
-        } catch (IllegalAccessException | InvocationTargetException e)
-        {
-            e.printStackTrace();
+            case "tag":
+                Tag tag = (Tag) object;
+                sql += "tagID=?";
+                result = Initialization.getJDBCUtil().update(sql, new String[]{tag.getTagID()});
+                break;
+            case "contact":
+                Contact contact = (Contact) object;
+                sql += "contactID=?";
+                result = Initialization.getJDBCUtil().update(sql, new String[]{contact.getContactID()});
+                break;
         }
         return result;
     }
