@@ -120,13 +120,12 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#" class="dropdown-button" data-beloworigin="true" data-activates='dropdown-account' data-constrainwidth="false" data-hover="true">
                         <i class="material-icons">account_circle</i>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="dropdown-button" data-beloworigin="true"
-                       data-activates='dropdown'>
+                    <a href="#" class="dropdown-button" data-beloworigin="true" data-activates='dropdown'>
                         <i class="material-icons">more_vert</i>
                     </a>
                 </li>
@@ -139,7 +138,7 @@
     <li>
         <div class="userView">
             <div class="background">
-                <img src="img/material_background.png">
+                <img src="img/account_background.jpg">
             </div>
             <a href="#">
                 <img class="circle" src="img/account.png">
@@ -153,13 +152,13 @@
         </div>
     </li>
     <li>
-        <a href="index.jsp">
+        <a href="index.jsp" class="waves-effect">
             <i class="material-icons">contacts</i>
-            Contacts(<%=pageBean.getTotalRows()%>)
+            Contacts
         </a>
     </li>
     <li>
-        <a href="#">
+        <a href="#" class="waves-effect">
             <i class="material-icons">content_copy</i>
             Repeat Contacts
         </a>
@@ -224,6 +223,24 @@
     <ul id='dropdown' class='dropdown-content'>
         <li>
             <a href="logout.jsp">Logout</a>
+        </li>
+    </ul>
+
+    <!-- Dropdown Structure -->
+    <ul id='dropdown-account' class='dropdown-content'>
+        <li>
+            <a href="#">Current User: <%=username%>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a href="#">Contacts Number: <%=pageBean.getTotalRows()%>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a href="#">Tags Number: <%=tagList.size()%>
+            </a>
         </li>
     </ul>
 
@@ -513,7 +530,7 @@
 <script type="text/javascript">
     // Initialize collapse button
     $(".button-collapse").sideNav({
-        menuWidth: 360 // Default is 240
+        menuWidth: 300 // Default is 240
     });
     // Initialize collapsible (uncomment the line below if you use the dropdown variation)
     $('.collapsible').collapsible();
