@@ -1,5 +1,6 @@
 package util;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,6 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import classes.Contact;
 import classes.Tag;
 import init.Initialization;
+import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 
 public class DBUtil
 {
@@ -154,5 +159,57 @@ public class DBUtil
                 "WHERE contactName = ? AND userID = ?";
         Map map = Initialization.getJDBCUtil().getMap(sql, new String[]{contactName, userID});
         return (String) map.get("contactID");
+    }
+
+    public static int exportExcel(Class c, List<Object> objectList, String fileName)
+    {
+        int code = 0;
+        try
+        {
+            File file = new File(fileName);
+            if (file.exists() || file.createNewFile())
+            {
+                WritableWorkbook writableWorkbook = Workbook.createWorkbook(file);
+                WritableSheet sheet = writableWorkbook.createSheet(c.getSimpleName(), 0);
+                int i = 0;
+                for (Field field : c.getDeclaredFields())
+                {
+                    if (field.getName().toLowerCase().contains("id"))
+                    {
+                        continue;
+                    }
+                    Label label = new Label(i, 0, field.getName());
+                    sheet.addCell(label);
+                    i++;
+                }
+                for (i = 0; i < objectList.size(); i++)
+                {
+                    int j = 0;
+                    for (Field field : c.getDeclaredFields())
+                    {
+                        if (field.getName().toLowerCase().contains("id"))
+                        {
+                            continue;
+                        }
+                        for (Method method : c.getMethods())
+                        {
+                            if (method.getName().toLowerCase().contains("get") && method.getName().toLowerCase().contains(field.getName().toLowerCase()))
+                            {
+                                Label label = new Label(j, i + 1, String.valueOf(method.invoke(objectList.get(i))));
+                                sheet.addCell(label);
+                            }
+                        }
+                        j++;
+                    }
+                }
+                writableWorkbook.write();
+                writableWorkbook.close();
+            }
+        } catch (Exception e)
+        {
+            code = -1;
+            e.printStackTrace();
+        }
+        return code;
     }
 }

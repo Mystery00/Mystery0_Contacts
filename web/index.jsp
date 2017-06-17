@@ -4,6 +4,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="init.Initialization" %>
 <%@ page import="util.PageBean" %>
+<%@ page import="java.io.OutputStream" %>
+<%@ page import="java.io.File" %>
+<%@ page import="java.io.FileInputStream" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +26,7 @@
     String username = null;
     String message = null;
     String curTag = null;
+    String path = null;
     boolean isSort = false;
     boolean isSearch = false;
     boolean isCheckRepeat = false;
@@ -113,7 +117,8 @@
 <header>
     <nav>
         <div id="reset-nav-wrapper" class="row nav-wrapper blue">
-            <a href="#" data-activates="slide-out" class="brand-logo button-collapse left"><i class="material-icons">dehaze</i>Mystery0 Contacts</a>
+            <a href="#" data-activates="slide-out" class="brand-logo button-collapse left"><i
+                    class="material-icons">dehaze</i>Mystery0 Contacts</a>
             <form class="col s6 reset-search-box" action="SearchServlet" method="post">
                 <div class="input-field">
                     <input name="searchString" id="search" type="search">
@@ -497,9 +502,9 @@
     </div>
 
     <!-- Modal Structure -->
-    <div id="modal-settings" class="modal">
+    <div id="modal-settings" class="modal row">
         <form id="settings" action="SettingsServlet" method="post">
-            <div class="modal-content">
+            <div class="modal-content row">
                 <h4>Settings</h4>
                 <!-- Switch -->
                 <div class="switch">
@@ -511,6 +516,11 @@
                         ON
                     </label>
                 </div>
+                <br>
+                <p class="row col s12"><a href="#" class="waves-effect waves-light btn col s12">Import from Excel</a>
+                </p>
+                <p class="row col s12"><a href="ExportServlet"
+                                          class="waves-effect waves-light btn col s12">Export to Excel</a></p>
             </div>
             <div class="modal-footer">
                 <a href="#" onclick="$('#settings').submit();"
