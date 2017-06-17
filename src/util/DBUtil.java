@@ -157,7 +157,7 @@ public class DBUtil
         return result;
     }
 
-    public static List<Contact> searchContacts(String username, String searchString)
+    public static PageBean searchContacts(String username, String searchString, int curPage)
     {
         String contactSql = "SELECT\n" +
                 "  contactName,\n" +
@@ -168,13 +168,7 @@ public class DBUtil
                 "FROM contact, user\n" +
                 "WHERE username = '" + username + "' AND contact.userID = user.userID AND\n" +
                 "      (contact.contactName LIKE '%" + searchString + "%' OR contact.phoneNumberList LIKE '%" + searchString + "%')";
-        List<Object> objectList = Initialization.getJDBCUtil().getObject(contactSql, new String[]{}, Contact.class);
-        List<Contact> contactList = new ArrayList<>();
-        for (Object object : objectList)
-        {
-            contactList.add((Contact) object);
-        }
-        return contactList;
+        return Initialization.getJDBCUtil().getPageBean(contactSql, new String[]{}, curPage);
     }
 
     public static String getContactID(String contactName, String userID)

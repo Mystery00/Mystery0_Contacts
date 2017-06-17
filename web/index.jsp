@@ -17,23 +17,35 @@
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Index</title>
+    <title>Mystery0 Contacts</title>
 </head>
 <body>
 <%
     String username = null;
     String message = null;
+    String curTag = null;
     int pageIndex = 1;
-    int totalPages = 1;
-    int totalRows = 0;
+    boolean isSearch = false;
+    String searchString = null;
     if (request.getSession().getAttribute("message") != null && !request.getSession().getAttribute("message").equals(""))
     {
         message = String.valueOf(request.getSession().getAttribute("message"));
         request.getSession().removeAttribute("message");
     }
+    if (request.getSession().getAttribute("isSearch") != null && !request.getSession().getAttribute("isSearch").equals(""))
+    {
+        isSearch = (boolean) request.getSession().getAttribute("isSearch");
+        searchString = String.valueOf(request.getSession().getAttribute("searchString"));
+        request.getSession().removeAttribute("isSearch");
+        request.getSession().removeAttribute("searchString");
+    }
     if (request.getParameter("index") != null && !request.getParameter("index").equals(""))
     {
         pageIndex = Integer.parseInt(request.getParameter("index"));
+    }
+    if (request.getParameter("tag") != null && !request.getParameter("tag").equals(""))
+    {
+        curTag = request.getParameter("tag");
     }
     Cookie[] cookies = request.getCookies();
     for (Cookie cookie : cookies)
@@ -52,17 +64,26 @@
     String tagSql = "SELECT tagID,tagName FROM tag,user WHERE username=? AND tag.userID=user.userID";
     List<Object> tagList = Initialization.getJDBCUtil().getObject(tagSql, new String[]{username}, Tag.class);
     List<Object> contactList;
-    if (request.getSession().getAttribute("contactList") == null)
+    PageBean pageBean;
+    if (request.getSession().getAttribute("PageBean") == null)
     {
-        String contactSql = "SELECT contactID,contactName,phoneNumberList,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID";
-        PageBean pageBean = Initialization.getJDBCUtil().getPageBean(contactSql, new String[]{username}, pageIndex);
-        totalPages = pageBean.getTotalPages();
-        totalRows = pageBean.getTotalRows();
+        String contactSql;
+        if (curTag != null)
+        {
+            contactSql = "SELECT contactID,contactName,phoneNumberList,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID AND tag=?";
+            pageBean = Initialization.getJDBCUtil().getPageBean(contactSql, new String[]{username, curTag}, pageIndex);
+        } else
+        {
+            contactSql = "SELECT contactID,contactName,phoneNumberList,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID";
+            pageBean = Initialization.getJDBCUtil().getPageBean(contactSql, new String[]{username}, pageIndex);
+        }
         contactList = Initialization.getJDBCUtil().getObjectFromList(Contact.class, pageBean.getData());
     } else
     {
-        contactList = (List<Object>) request.getSession().getAttribute("contactList");
-        request.getSession().removeAttribute("contactList");
+        pageBean = (PageBean) request.getSession().getAttribute("PageBean");
+        pageIndex = pageBean.getCurPage();
+        contactList = Initialization.getJDBCUtil().getObjectFromList(Contact.class, pageBean.getData());
+        request.getSession().removeAttribute("PageBean");
     }
 %>
 <header>
@@ -120,9 +141,9 @@
         </div>
     </li>
     <li>
-        <a href="#">
+        <a href="index.jsp">
             <i class="material-icons">contacts</i>
-            Contacts(<%=totalRows%>)
+            Contacts(<%=pageBean.getTotalRows()%>)
         </a>
     </li>
     <li>
@@ -151,7 +172,7 @@
                 %>
                 <ul class="collapsible-body tag-item">
                     <li>
-                        <a href="#">
+                        <a href="index.jsp?tag=<%=tag.getTagName()%>">
                             <i class="material-icons">label</i>
                             <%=tag.getTagName()%>
                             <i class="material-icons right tag-delete hide"
@@ -357,7 +378,7 @@
                 </div>
                 <div class="input-field col s6">
                     <i class="material-icons prefix reset-prefix valign-wrapper reset-color">label</i>
-                    <select id="tag" class="icons" name="countryCode">
+                    <select id="tag" class="icons" name="tag">
                         <option selected value="null">Please Choose Tag
                         </option>
                         <%
@@ -419,23 +440,23 @@
     <div class="container center-align">
         <ul class="pagination">
             <li class="<%=((pageIndex==1)?"disabled":"")%> blue">
-                <a href="<%=((pageIndex==1)?"#":"index.jsp?index="+(pageIndex-1))%>">
+                <a href="<%=(isSearch?("SearchServlet?searchString="+searchString+"&&index="+(pageIndex+1)):((pageIndex==1)?"#":("index.jsp?"+((curTag==null)?"":("tag="+curTag+"&"))))+"index="+(pageIndex-1))%>">
                     <i class="material-icons">chevron_left</i>
                 </a>
             </li>
             <%
-                for (int a = 1; a <= totalPages; a++)
+                for (int a = 1; a <= pageBean.getTotalPages(); a++)
                 {
             %>
             <li class="<%=((pageIndex==a)?"active darken-1":"waves-effect")%> blue">
-                <a href="<%=((pageIndex==a)?"#":"index.jsp?index="+a)%>"><%=a%>
+                <a href="<%=((pageIndex==a)?"#":(isSearch?("SearchServlet?searchString="+searchString+"&index="+a):("index.jsp?"+((curTag==null)?"":("tag="+curTag+"&")))+"index="+a))%>"><%=a%>
                 </a>
             </li>
             <%
                 }
             %>
-            <li class="<%=((pageIndex==totalPages)?"disabled":"")%> waves-effect blue">
-                <a href="<%=((pageIndex==totalPages)?"#":"index.jsp?index="+(pageIndex+1))%>">
+            <li class="<%=((pageIndex==pageBean.getTotalPages())?"disabled":"")%> waves-effect blue">
+                <a href="<%=(isSearch?("SearchServlet?searchString="+searchString+"&index="+(pageIndex+1)):((pageIndex==pageBean.getTotalPages())?"#":("index.jsp?"+((curTag==null)?"":("tag="+curTag+"&"))))+"index="+(pageIndex+1))%>">
                     <i class="material-icons">chevron_right</i>
                 </a>
             </li>
