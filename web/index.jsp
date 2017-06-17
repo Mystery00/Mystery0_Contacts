@@ -538,10 +538,8 @@
     </div>
 
     <%
-        if (!isCheckRepeat)
+        if (isCheckRepeat && contactList.size() == 0)
         {
-            if (contactList.size() == 0)
-            {
     %>
     <div class="center-align">
         <img src="img/no_repeat.png" alt="There is no Repeat contacts">
@@ -549,19 +547,13 @@
     </div>
     <%
         }
+        if (!isCheckRepeat)
+        {
     %>
     <a id="reset-floating-button" href="#modal-new-contact"
        class="btn-floating btn-large waves-effect waves-light red right">
         <i class="material-icons">add</i>
     </a>
-    <%
-    } else
-    {
-    %>
-    <div class="center-align">
-        <img src="img/no_repeat.png" alt="There is no Repeat contacts">
-        <p>There is no Repeat contacts! </p>
-    </div>
     <%
         }
     %>
@@ -569,7 +561,11 @@
 
 <footer class="page-footer blue">
     <%
-        if (!isCheckRepeat)
+        if
+                (
+                !
+                        isCheckRepeat
+                )
         {
     %>
     <div class="container center-align">
@@ -580,7 +576,24 @@
                 </a>
             </li>
             <%
-                for (int a = 1; a <= pageBean.getTotalPages(); a++)
+                for
+                        (
+                        int
+                        a
+                        =
+                        1
+                        ;
+                        a
+                                <=
+                                pageBean
+                                        .
+                                                getTotalPages
+                                                        (
+                                                        )
+                        ;
+                        a
+                                ++
+                        )
                 {
             %>
             <li class="<%=((pageIndex==a)?"active darken-1":"waves-effect")%> blue">

@@ -1,11 +1,13 @@
 package util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import classes.Contact;
 import classes.Tag;
 import init.Initialization;
+import jxl.Sheet;
 import jxl.Workbook;
+import jxl.read.biff.BiffException;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
@@ -211,5 +215,52 @@ public class DBUtil
             e.printStackTrace();
         }
         return code;
+    }
+
+    public static int importExcel(String path, String username)
+    {
+        int code = 0;
+        int result = 0;
+        try
+        {
+            InputStream inputStream = new FileInputStream(new File(path));
+            Workbook workbook = Workbook.getWorkbook(inputStream);
+            int sheet_size = workbook.getNumberOfSheets();
+            for (int index = 0; index < sheet_size; index++)
+            {
+                Sheet sheet = workbook.getSheet(index);
+                List<String> columns = new ArrayList<>();
+                for (int i = 0; i < sheet.getColumns(); i++)
+                {
+                    columns.add(sheet.getCell(i, 0).getContents());
+                }
+                for (int i = 1; i < sheet.getRows(); i++)
+                {
+                    Contact contact = new Contact();
+                    for (int j = 0; j < sheet.getColumns(); j++)
+                    {
+                        for (Method method : contact.getClass().getMethods())
+                        {
+                            if (method.getName().toLowerCase().contains("set") && method.getName().toLowerCase().contains(columns.get(j).toLowerCase()))
+                            {
+                                method.invoke(contact, sheet.getCell(j, i).getContents());
+                            }
+                        }
+                    }
+                    contact.setUserID(UserUtil.getUserID(username));
+                    code += saveObject(contact);
+                }
+                result = sheet.getRows() - 1;
+            }
+        } catch (BiffException | IOException | IllegalAccessException | InvocationTargetException e)
+        {
+            e.printStackTrace();
+            return -1;
+        }
+        if (code == result)
+        {
+            return 0;
+        } else
+            return -1;
     }
 }
