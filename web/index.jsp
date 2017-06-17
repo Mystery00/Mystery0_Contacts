@@ -25,6 +25,7 @@
     String message = null;
     int pageIndex = 1;
     int totalPages = 1;
+    int totalRows = 0;
     if (request.getSession().getAttribute("message") != null && !request.getSession().getAttribute("message").equals(""))
     {
         message = String.valueOf(request.getSession().getAttribute("message"));
@@ -56,6 +57,7 @@
         String contactSql = "SELECT contactID,contactName,phoneNumberList,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID";
         PageBean pageBean = Initialization.getJDBCUtil().getPageBean(contactSql, new String[]{username}, pageIndex);
         totalPages = pageBean.getTotalPages();
+        totalRows = pageBean.getTotalRows();
         contactList = Initialization.getJDBCUtil().getObjectFromList(Contact.class, pageBean.getData());
     } else
     {
@@ -120,7 +122,7 @@
     <li>
         <a href="#">
             <i class="material-icons">contacts</i>
-            Contacts
+            Contacts(<%=totalRows%>)
         </a>
     </li>
     <li>
@@ -254,8 +256,20 @@
                     </div>
                     <div class="input-field col s6">
                         <i class="material-icons prefix reset-prefix valign-wrapper reset-color">label</i>
-                        <input id="tag<%=index%>" value="<%=contact.getTag()%>" name="tag"
-                               type="text" class="validate">
+                        <select id="tag<%=index%>" class="icons" name="tag">
+                            <option value="null" <%=contact.getTag().equals("null") ? "selected" : ""%>>Please Choose Tag
+                            </option>
+                            <%
+                                for (Object tagObject : tagList)
+                                {
+                                    Tag tag = (Tag) tagObject;
+                            %>
+                            <option value="<%=tag.getTagName()%>" <%=contact.getTag().equals(tag.getTagName()) ? "selected" : ""%>><%=tag.getTagName()%>
+                            </option>
+                            <%
+                                }
+                            %>
+                        </select>
                         <label for="tag<%=index%>">Tag</label>
                     </div>
                     <div class="input-field col s12">
@@ -343,7 +357,20 @@
                 </div>
                 <div class="input-field col s6">
                     <i class="material-icons prefix reset-prefix valign-wrapper reset-color">label</i>
-                    <input id="tag" name="tag" type="text" class="validate">
+                    <select id="tag" class="icons" name="countryCode">
+                        <option selected value="null">Please Choose Tag
+                        </option>
+                        <%
+                            for (Object tagObject : tagList)
+                            {
+                                Tag tag = (Tag) tagObject;
+                        %>
+                        <option value="<%=tag.getTagName()%>"><%=tag.getTagName()%>
+                        </option>
+                        <%
+                            }
+                        %>
+                    </select>
                     <label for="tag">Tag</label>
                 </div>
                 <div class="input-field col s12">
