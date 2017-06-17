@@ -80,7 +80,7 @@
             </form>
             <ul id="reset-right" class="col s2 right">
                 <li class="hide" id="delete-nav-btn">
-                    <a href="#" onclick="delete_data(arr,'contact')">
+                    <a href="#" onclick="delete_data(arr,'contact',0)">
                         <i class="material-icons">delete</i>
                     </a>
                 </li>

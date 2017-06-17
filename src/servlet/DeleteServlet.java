@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import classes.Contact;
 import classes.Tag;
 import util.DBUtil;
+import util.UserUtil;
 
 @WebServlet(name = "DeleteServlet", urlPatterns = {"/DeleteServlet"})
 public class DeleteServlet extends HttpServlet
@@ -34,12 +36,28 @@ public class DeleteServlet extends HttpServlet
                 }
                 break;
             case "contact":
+                String username = null;
+                Cookie[] cookies = request.getCookies();
+                for (Cookie cookie : cookies)
+                {
+                    if (cookie.getName().equals("username"))
+                    {
+                        username = cookie.getValue();
+                        break;
+                    }
+                }
+                if (username == null)
+                {
+                    response.sendRedirect("login.jsp");
+                    return;
+                }
                 String[] deleteStrings = deleteString.split(",");
                 Contact contact = new Contact();
                 int result = 0;
                 for (String temp : deleteStrings)
                 {
                     contact.setContactName(temp);
+                    contact.setContactID(DBUtil.getContactID(temp, UserUtil.getUserID(username)));
                     result += DBUtil.deleteObject(contact);
                 }
                 if (result >= deleteStrings.length)

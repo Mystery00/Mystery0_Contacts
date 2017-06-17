@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -174,5 +175,14 @@ public class DBUtil
             contactList.add((Contact) object);
         }
         return contactList;
+    }
+
+    public static String getContactID(String contactName, String userID)
+    {
+        String sql = "SELECT *\n" +
+                "FROM contact\n" +
+                "WHERE contactName = ? AND userID = ?";
+        Map map = Initialization.getJDBCUtil().getMap(sql, new String[]{contactName, userID});
+        return (String) map.get("contactID");
     }
 }

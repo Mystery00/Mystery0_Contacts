@@ -41,12 +41,15 @@ public class JDBCUtil
 
     public Connection getConnection()
     {
-        try
+        if (connection == null)
         {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
+            try
+            {
+                connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            } catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
         }
         return connection;
     }
