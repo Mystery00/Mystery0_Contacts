@@ -113,10 +113,8 @@
 <header>
     <nav>
         <div id="reset-nav-wrapper" class="row nav-wrapper blue">
-            <a href="#" data-activates="slide-out" class="button-collapse left">
-                <i class="material-icons">dehaze</i>
-            </a>
-            <form class="col s6" action="SearchServlet" method="post">
+            <a href="#" data-activates="slide-out" class="brand-logo button-collapse left"><i class="material-icons">dehaze</i>Mystery0 Contacts</a>
+            <form class="col s6 reset-search-box" action="SearchServlet" method="post">
                 <div class="input-field">
                     <input name="searchString" id="search" type="search">
                     <label class="label-icon" for="search">
@@ -588,7 +586,7 @@
     %>
     <div class="footer-copyright">
         <div class="container">@ 2017 Copyright WeiLy Lab
-            <a class="grey-text text-lighten-4 right" href="#">More Links</a>
+            <a class="grey-text text-lighten-4 right" href="http://www.mystery0.vip/">Made By Mystery0</a>
         </div>
     </div>
 </footer>

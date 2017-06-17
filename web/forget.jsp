@@ -12,43 +12,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Forget</title>
     <script type="text/javascript">
-        function checkInput(thisForm)
+        function checkPassword()
         {
-            with (thisForm)
+            if ($('#password').val() === $('#re_password').val())
             {
-                if (username.value === null || username.value === "")
-                {
-                    alert("Username cannot be null!");
-                    username.focus();
-                    return false;
-                } else if (password.value === null || password.value === "")
-                {
-                    alert("Password cannot be null!");
-                    password.focus();
-                    return false;
-                } else if (password_repeat.value === null || password_repeat.value === "")
-                {
-                    alert("Password cannot be null!");
-                    password_repeat.focus();
-                    return false;
-                } else
-                {
-                    return checkPassword(thisForm);
-                }
-            }
-        }
-        function checkPassword(thisForm)
-        {
-            with (thisForm)
+                return true;
+            } else
             {
-                if (password.value === password_repeat.value)
-                {
-                    return true;
-                } else
-                {
-                    alert("The password is not the same!");
-                    return false;
-                }
+                Materialize.toast('The password is not the same!', 3000);
+                return false;
             }
         }
     </script>
@@ -63,14 +35,14 @@
             case "username":
 %>
 <script>
-    alert("There is no this user! ");
+    Materialize.toast('There is no this user!', 3000);
 </script>
 <%
         break;
     case "error":
 %>
 <script>
-    alert("Error! ");
+    Materialize.toast('Error!', 3000);
 </script>
 <%
                 break;
@@ -97,25 +69,25 @@
 </div>
 <div class="loginFieldBackground" role="presentation">
     <form action="ForgetServlet" method="post"
-          onsubmit="return checkInput(this)"
+          onsubmit="return checkPassword()"
           style=" margin-top: 10%;">
         <div class="loginField row">
             <div>
-                <img src="img/google_logo.png" alt="Google">
+                <a href="login.jsp"><img src="img/google_logo.png" alt="Google"></a>
             </div>
             <br>
             <div class="input-field col s12">
-                <input id="username" name="username" type="text" class="validate">
+                <input id="username" name="username" type="text" class="validate" required>
                 <label for="username">Username</label>
             </div>
             <br>
             <div class="input-field col s12">
-                <input id="password" name="password" type="password" class="validate">
+                <input id="password" name="password" type="password" class="validate" required>
                 <label for="password">Password</label>
             </div>
             <br>
             <div class="input-field col s12">
-                <input id="re_password" name="password_repeat" type="password" class="validate">
+                <input id="re_password" name="password_repeat" type="password" class="validate" required>
                 <label for="re_password">Repeat Password</label>
             </div>
             <br>

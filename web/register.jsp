@@ -11,28 +11,6 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Register</title>
-    <script type="text/javascript">
-        function checkInput(thisForm)
-        {
-            with (thisForm)
-            {
-                if (username.value === null || username.value === "")
-                {
-                    alert("Username cannot be null!");
-                    username.focus();
-                    return false;
-                } else if (password.value === null || password.value === "")
-                {
-                    alert("Password cannot be null!");
-                    password.focus();
-                    return false;
-                } else
-                {
-                    return true;
-                }
-            }
-        }
-    </script>
 </head>
 <body>
 <%
@@ -44,7 +22,7 @@
             case "username":
 %>
 <script>
-    alert("This username has been registered! ");
+    Materialize.toast('This username has been registered!', 3000);
 </script>
 <%
                 break;
@@ -71,20 +49,19 @@
 </div>
 <div class="loginFieldBackground" role="presentation">
     <form action="RegisterServlet" method="post"
-          onsubmit="return checkInput(this)"
           style=" margin-top: 10%;">
         <div class="loginField row">
             <div>
-                <img src="img/google_logo.png" alt="Google">
+                <a href="login.jsp"><img src="img/google_logo.png" alt="Google"></a>
             </div>
             <br>
             <div class="input-field col s12">
-                <input id="username" name="username" type="text" class="validate">
+                <input id="username" name="username" type="text" class="validate" required>
                 <label for="username">Username</label>
             </div>
             <br>
             <div class="input-field col s12">
-                <input id="password" name="password" type="password" class="validate">
+                <input id="password" name="password" type="password" class="validate" required>
                 <label for="password">Password</label>
             </div>
             <br>

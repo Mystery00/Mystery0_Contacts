@@ -13,26 +13,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Login</title>
     <script type="text/javascript">
-        function checkInput(thisForm)
-        {
-            with (thisForm)
-            {
-                if (username.value === null || username.value === "")
-                {
-                    alert("Username cannot be null!");
-                    username.focus();
-                    return false;
-                } else if (password.value === null || password.value === "")
-                {
-                    alert("Password cannot be null!");
-                    password.focus();
-                    return false;
-                } else
-                {
-                    return true;
-                }
-            }
-        }
         function doHref()
         {
             window.location.href = "register.jsp";
@@ -50,14 +30,14 @@
             case "username":
 %>
 <script>
-    alert("There is no this user! ");
+    Materialize.toast('There is no this user!', 3000);
 </script>
 <%
         break;
     case "password":
 %>
 <script>
-    alert("Password is error! ");
+    Materialize.toast('Password is error!', 3000);
 </script>
 <%
                 break;
@@ -84,7 +64,6 @@
 </div>
 <div class="loginFieldBackground" role="presentation">
     <form action="LoginServlet" method="post"
-          onsubmit="return checkInput(this)"
           style=" margin-top: 10%;">
         <div class="loginField row">
             <div>
@@ -92,19 +71,20 @@
             </div>
             <br>
             <div class="input-field col s12">
-                <input id="username" name="username" type="text" class="validate">
+                <input id="username" name="username" type="text" class="validate" required>
                 <label for="username">Username</label>
             </div>
             <br>
             <div class="input-field col s12">
-                <input id="password" name="password" type="password" class="validate">
+                <input id="password" name="password" type="password" class="validate" required>
                 <label for="password">Password</label>
             </div>
             <br>
             <div class="col s12">
                 <a class="left valign-wrapper" href="forget.jsp">Forget?</a>
                 <button class="btn waves-effect waves-light center" type="button" name="action"
-                        onclick="doHref()">Register</button>
+                        onclick="doHref()">Register
+                </button>
                 <button class="btn waves-effect waves-light right" type="submit" name="action">Login</button>
             </div>
         </div>
@@ -113,5 +93,12 @@
 <!--Import jQuery before materialize.js-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+        $('.modal').modal();
+    });
+</script>
 </body>
 </html>
