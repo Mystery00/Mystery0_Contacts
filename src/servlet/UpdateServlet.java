@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import classes.Contact;
 import classes.Tag;
+import init.Initialization;
 import util.DBUtil;
+import util.UserUtil;
 
 @WebServlet(name = "UpdateServlet", urlPatterns = {"/UpdateServlet"})
 public class UpdateServlet extends HttpServlet
@@ -45,7 +47,15 @@ public class UpdateServlet extends HttpServlet
                 Tag tag = (Tag) DBUtil.getObject(request, request.getParameterNames(), Tag.class);
                 if (tag == null)
                     return;
-                code = DBUtil.updateObject(tag, tag.getTagID());
+                String tagSql = "SELECT * FROM tag WHERE tagID=?";
+                Tag oldTag = (Tag) Initialization.getJDBCUtil().getObject(tagSql, new String[]{tag.getTagID()}, Tag.class).get(0);
+                String sql = "UPDATE contact SET tag=? WHERE tag=? AND userID=?";
+                String[] params = {tag.getTagName(), oldTag.getTagName(), UserUtil.getUserID(username)};
+                code = Initialization.getJDBCUtil().update(sql, params);
+                if (code >= 0)
+                {
+                    code = DBUtil.updateObject(tag, tag.getTagID());
+                }
                 break;
         }
         if (code > 0)

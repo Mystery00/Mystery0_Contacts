@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import classes.Contact;
 import classes.Tag;
+import init.Initialization;
 import util.DBUtil;
 import util.UserUtil;
 
@@ -19,6 +20,20 @@ public class DeleteServlet extends HttpServlet
 {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+        String username = null;
+        for (Cookie cookie : request.getCookies())
+        {
+            if (cookie.getName().equals("username"))
+            {
+                username = cookie.getValue();
+                break;
+            }
+        }
+        if (username == null)
+        {
+            response.sendRedirect("login.jsp");
+            return;
+        }
         String deleteString = request.getParameter("deleteString");
         String type = request.getParameter("type");
         switch (type)
@@ -29,28 +44,21 @@ public class DeleteServlet extends HttpServlet
                 tag.setTagName(deleteString);
                 if (DBUtil.deleteObject(tag) > 0)
                 {
-                    request.getSession().setAttribute("message", "Tag Delete Done!");
+                    String sql = "UPDATE contact SET tag='null' WHERE tag=? AND userID=?";
+                    String[] params = {deleteString, UserUtil.getUserID(username)};
+                    if (Initialization.getJDBCUtil().update(sql, params)>=0)
+                    {
+                        request.getSession().setAttribute("message", "Tag Delete Done!");
+                    }else
+                    {
+                        request.getSession().setAttribute("message", "Tag Delete failed!");
+                    }
                 } else
                 {
                     request.getSession().setAttribute("message", "Tag Delete failed!");
                 }
                 break;
             case "contact":
-                String username = null;
-                Cookie[] cookies = request.getCookies();
-                for (Cookie cookie : cookies)
-                {
-                    if (cookie.getName().equals("username"))
-                    {
-                        username = cookie.getValue();
-                        break;
-                    }
-                }
-                if (username == null)
-                {
-                    response.sendRedirect("login.jsp");
-                    return;
-                }
                 String[] deleteStrings = deleteString.split(",");
                 Contact contact = new Contact();
                 int result = 0;
