@@ -5,10 +5,10 @@ public class Contact
     private String ContactID;
 
     private String contactName;
-    private String phoneNumberList;
+    private String phoneNumber;
     private String countryCode;
     private String tag;
-    private String emailList;
+    private String email;
     private String userID;
 
     public String getContactID()
@@ -31,14 +31,14 @@ public class Contact
         this.contactName = contactName;
     }
 
-    public String getPhoneNumberList()
+    public String getPhoneNumber()
     {
-        return phoneNumberList;
+        return phoneNumber;
     }
 
-    public void setPhoneNumberList(String phoneNumberList)
+    public void setPhoneNumber(String phoneNumber)
     {
-        this.phoneNumberList = phoneNumberList;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getCountryCode()
@@ -61,14 +61,14 @@ public class Contact
         this.tag = tag;
     }
 
-    public String getEmailList()
+    public String getEmail()
     {
-        return emailList;
+        return email;
     }
 
-    public void setEmailList(String emailList)
+    public void setEmail(String email)
     {
-        this.emailList = emailList;
+        this.email = email;
     }
 
     public String getUserID()

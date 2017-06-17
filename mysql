@@ -11,10 +11,10 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE `mystery0_contacts`.`contact` (
   `contactID` INT NOT NULL AUTO_INCREMENT,
   `contactName` VARCHAR(45) NOT NULL,
-  `phoneNumberList` VARCHAR(45) NULL,
+  `phoneNumber` VARCHAR(45) NULL,
   `countryCode` VARCHAR(45) NOT NULL,
   `tag` VARCHAR(45) NULL,
-  `emailList` VARCHAR(45) NULL,
+  `email` VARCHAR(45) NULL,
   `userID` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`contactID`))
 DEFAULT CHARACTER SET = utf8;

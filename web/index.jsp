@@ -1,7 +1,6 @@
 <%@ page import="classes.Tag" %>
 <%@ page import="classes.Contact" %>
 <%@ page import="util.UserUtil" %>
-<%@ page import="util.DBUtil" %>
 <%@ page import="java.util.List" %>
 <%@ page import="init.Initialization" %>
 <%@ page import="util.PageBean" %>
@@ -25,8 +24,9 @@
     String message = null;
     String curTag = null;
     boolean isSort = false;
-    int pageIndex = 1;
     boolean isSearch = false;
+    boolean isCheckRepeat = false;
+    int pageIndex = 1;
     String searchString = null;
     if (request.getSession().getAttribute("message") != null && !request.getSession().getAttribute("message").equals(""))
     {
@@ -39,6 +39,11 @@
         searchString = String.valueOf(request.getSession().getAttribute("searchString"));
         request.getSession().removeAttribute("isSearch");
         request.getSession().removeAttribute("searchString");
+    }
+    if (request.getSession().getAttribute("isCheckRepeat") != null && !request.getSession().getAttribute("isCheckRepeat").equals(""))
+    {
+        isCheckRepeat = (boolean) request.getSession().getAttribute("isCheckRepeat");
+        request.getSession().removeAttribute("isCheckRepeat");
     }
     if (request.getParameter("index") != null && !request.getParameter("index").equals(""))
     {
@@ -68,34 +73,41 @@
     String tagSql = "SELECT tagID,tagName FROM tag,user WHERE username=? AND tag.userID=user.userID";
     List<Object> tagList = Initialization.getJDBCUtil().getObject(tagSql, new String[]{username}, Tag.class);
     List<Object> contactList;
-    PageBean pageBean;
-    if (request.getSession().getAttribute("PageBean") == null)
+    PageBean pageBean = null;
+    if (isCheckRepeat)
     {
-        String contactSql;
-        if (curTag != null)
-        {
-            contactSql = "SELECT contactID,contactName,phoneNumberList,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID AND tag=?";
-            if (isSort)
-            {
-                contactSql += " ORDER BY contactName";
-            }
-            pageBean = Initialization.getJDBCUtil().getPageBean(contactSql, new String[]{username, curTag}, pageIndex);
-        } else
-        {
-            contactSql = "SELECT contactID,contactName,phoneNumberList,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID";
-            if (isSort)
-            {
-                contactSql += " ORDER BY contactName";
-            }
-            pageBean = Initialization.getJDBCUtil().getPageBean(contactSql, new String[]{username}, pageIndex);
-        }
-        contactList = Initialization.getJDBCUtil().getObjectFromList(Contact.class, pageBean.getData());
+        contactList = (List<Object>) request.getSession().getAttribute("repeatList");
+        request.getSession().removeAttribute("repeatList");
     } else
     {
-        pageBean = (PageBean) request.getSession().getAttribute("PageBean");
-        pageIndex = pageBean.getCurPage();
-        contactList = Initialization.getJDBCUtil().getObjectFromList(Contact.class, pageBean.getData());
-        request.getSession().removeAttribute("PageBean");
+        if (request.getSession().getAttribute("PageBean") == null)
+        {
+            String contactSql;
+            if (curTag != null)
+            {
+                contactSql = "SELECT contactID,contactName,phoneNumber,countryCode,tag,email FROM contact,user WHERE username=? AND contact.userID=user.userID AND tag=?";
+                if (isSort)
+                {
+                    contactSql += " ORDER BY contactName";
+                }
+                pageBean = Initialization.getJDBCUtil().getPageBean(contactSql, new String[]{username, curTag}, pageIndex);
+            } else
+            {
+                contactSql = "SELECT contactID,contactName,phoneNumber,countryCode,tag,email FROM contact,user WHERE username=? AND contact.userID=user.userID";
+                if (isSort)
+                {
+                    contactSql += " ORDER BY contactName";
+                }
+                pageBean = Initialization.getJDBCUtil().getPageBean(contactSql, new String[]{username}, pageIndex);
+            }
+            contactList = Initialization.getJDBCUtil().getObjectFromList(Contact.class, pageBean.getData());
+        } else
+        {
+            pageBean = (PageBean) request.getSession().getAttribute("PageBean");
+            pageIndex = pageBean.getCurPage();
+            contactList = Initialization.getJDBCUtil().getObjectFromList(Contact.class, pageBean.getData());
+            request.getSession().removeAttribute("PageBean");
+        }
     }
 %>
 <header>
@@ -114,13 +126,26 @@
                 </div>
             </form>
             <ul id="reset-right" class="col s2 right">
+                <%
+                    if (isCheckRepeat)
+                    {
+                %>
+                <li class="hide" id="repeat-nav-btn">
+                    <a href="#" onclick="delete_data(arr,'contact',0)">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </li>
+                <%
+                    }
+                %>
                 <li class="hide" id="delete-nav-btn">
                     <a href="#" onclick="delete_data(arr,'contact',0)">
                         <i class="material-icons">delete</i>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="dropdown-button" data-beloworigin="true" data-activates='dropdown-account' data-constrainwidth="false" data-hover="true">
+                    <a href="#" class="dropdown-button" data-beloworigin="true" data-activates='dropdown-account'
+                       data-constrainwidth="false" data-hover="true">
                         <i class="material-icons">account_circle</i>
                     </a>
                 </li>
@@ -158,7 +183,7 @@
         </a>
     </li>
     <li>
-        <a href="#" class="waves-effect">
+        <a href="RepeatServlet" class="waves-effect">
             <i class="material-icons">content_copy</i>
             Repeat Contacts
         </a>
@@ -225,6 +250,10 @@
             <a href="logout.jsp">Logout</a>
         </li>
     </ul>
+    <%
+        if (!isCheckRepeat)
+        {
+    %>
 
     <!-- Dropdown Structure -->
     <ul id='dropdown-account' class='dropdown-content'>
@@ -243,6 +272,9 @@
             </a>
         </li>
     </ul>
+    <%
+        }
+    %>
 
     <ul class="collection">
         <%
@@ -261,12 +293,19 @@
             </div>
             <span id="contactShowName<%=index%>"
                   class="title reset-content"><%=contact.getContactName()%></span>
-            <span><%=(contact.getCountryCode().equals("null") ? "" : (contact.getCountryCode() + " ")) + DBUtil.getInfoList(contact, "phone").get(0)%></span>
+            <span><%=(contact.getCountryCode().equals("null") ? "" : (contact.getCountryCode() + " ")) + contact.getPhoneNumber()%></span>
+            <%
+                if (!isCheckRepeat)
+                {
+            %>
             <div class="reset-secondary-content valign-wrapper check-edit hide">
                 <a href="#modal-edit-contact-<%=index%>" class="valign-wrapper">
                     <i class="material-icons">edit</i>
                 </a>
             </div>
+            <%
+                }
+            %>
         </li>
 
         <!-- Modal Structure -->
@@ -289,7 +328,7 @@
                     <div class="input-field col s12">
                         <i class="material-icons prefix reset-prefix valign-wrapper reset-color">smartphone</i>
                         <input id="phoneNumber<%=index%>"
-                               value="<%=contact.getPhoneNumberList()%>"
+                               value="<%=contact.getPhoneNumber()%>"
                                name="phoneNumber" type="number" class="validate"
                                data-error="wrong" required>
                         <label for="phoneNumber<%=index%>">Phone</label>
@@ -324,10 +363,10 @@
                     </div>
                     <div class="input-field col s12">
                         <i class="material-icons prefix reset-prefix valign-wrapper reset-color">email</i>
-                        <input id="emailList<%=index%>" value="<%=contact.getEmailList()%>"
-                               name="emailList" type="email" class="validate"
+                        <input id="email<%=index%>" value="<%=contact.getEmail()%>"
+                               name="email" type="email" class="validate"
                                data-error="wrong">
-                        <label for="emailList<%=index%>">E-mail</label>
+                        <label for="email<%=index%>">E-mail</label>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -425,9 +464,9 @@
                 </div>
                 <div class="input-field col s12">
                     <i class="material-icons prefix reset-prefix valign-wrapper reset-color">email</i>
-                    <input id="emailList" name="emailList" type="email" class="validate"
+                    <input id="email" name="emailList" type="email" class="validate"
                            data-error="wrong">
-                    <label for="emailList">E-mail</label>
+                    <label for="email">E-mail</label>
                 </div>
             </div>
             <div class="modal-footer">
@@ -484,17 +523,45 @@
         </form>
     </div>
 
+    <%
+        if (!isCheckRepeat)
+        {
+            if (contactList.size() == 0)
+            {
+    %>
+    <div class="center-align">
+        <img src="img/no_repeat.png" alt="There is no Repeat contacts">
+        <p>There is no contacts! </p>
+    </div>
+    <%
+        }
+    %>
     <a id="reset-floating-button" href="#modal-new-contact"
        class="btn-floating btn-large waves-effect waves-light red right">
         <i class="material-icons">add</i>
     </a>
+    <%
+    } else
+    {
+    %>
+    <div class="center-align">
+        <img src="img/no_repeat.png" alt="There is no Repeat contacts">
+        <p>There is no Repeat contacts! </p>
+    </div>
+    <%
+        }
+    %>
 </main>
 
 <footer class="page-footer blue">
+    <%
+        if (!isCheckRepeat)
+        {
+    %>
     <div class="container center-align">
         <ul class="pagination">
-            <li class="<%=((pageIndex==1)?"disabled":"")%> blue">
-                <a href="<%=(isSearch?("SearchServlet?searchString="+searchString+"&&index="+(pageIndex+1)):((pageIndex==1)?"#":("index.jsp?"+((curTag==null)?"":("tag="+curTag+"&"))))+"index="+(pageIndex-1))%>">
+            <li class="<%=((pageIndex<=1)?"disabled":"waves-effect")%> blue">
+                <a href="<%=(isSearch?("SearchServlet?searchString="+searchString+"&&index="+(pageIndex+1)):((pageIndex<=1)?"#":("index.jsp?"+((curTag==null)?"":("tag="+curTag+"&"))))+"index="+(pageIndex-1))%>">
                     <i class="material-icons">chevron_left</i>
                 </a>
             </li>
@@ -509,13 +576,16 @@
             <%
                 }
             %>
-            <li class="<%=((pageIndex==pageBean.getTotalPages())?"disabled":"")%> waves-effect blue">
-                <a href="<%=(isSearch?("SearchServlet?searchString="+searchString+"&index="+(pageIndex+1)):((pageIndex==pageBean.getTotalPages())?"#":("index.jsp?"+((curTag==null)?"":("tag="+curTag+"&"))))+"index="+(pageIndex+1))%>">
+            <li class="<%=((pageIndex>=pageBean.getTotalPages())?"disabled":"waves-effect")%> blue">
+                <a href="<%=(isSearch?("SearchServlet?searchString="+searchString+"&index="+(pageIndex+1)):((pageIndex>=pageBean.getTotalPages())?"#":("index.jsp?"+((curTag==null)?"":("tag="+curTag+"&"))))+"index="+(pageIndex+1))%>">
                     <i class="material-icons">chevron_right</i>
                 </a>
             </li>
         </ul>
     </div>
+    <%
+        }
+    %>
     <div class="footer-copyright">
         <div class="container">@ 2017 Copyright WeiLy Lab
             <a class="grey-text text-lighten-4 right" href="#">More Links</a>

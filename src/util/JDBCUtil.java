@@ -10,10 +10,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class JDBCUtil
 {
@@ -22,7 +20,6 @@ public class JDBCUtil
     private String URL;
     private Connection connection;
     private PreparedStatement preparedStatement;
-    private int pageSize = 5;
 
     public JDBCUtil(String databaseName)
     {
@@ -246,6 +243,7 @@ public class JDBCUtil
 
     public PageBean getPageBean(String sql, String[] params, int curPage)
     {
+        int pageSize = 10;
         String newSql = sql + " limit " + (curPage - 1) * pageSize + "," + pageSize;
         List data = getList(newSql, params);
         PageBean pageBean = new PageBean();

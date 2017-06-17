@@ -26,7 +26,7 @@ public class PageBean
 
     public int getTotalPages()
     {
-        if (totalRows % pageSize == 0)
+        if (totalRows > 0 && totalRows % pageSize == 0)
             totalPages = totalRows / pageSize;
         else
             totalPages = totalRows / pageSize + 1;
@@ -35,7 +35,7 @@ public class PageBean
 
     public void setTotalPages(int totalPages)
     {
-        this.totalPages=totalPages;
+        this.totalPages = totalPages;
     }
 
     public int getTotalRows()

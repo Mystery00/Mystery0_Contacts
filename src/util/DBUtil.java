@@ -112,30 +112,6 @@ public class DBUtil
         return -1;
     }
 
-    public static List<String> getInfoList(Object object, String type)
-    {
-        List<String> list = new ArrayList<>();
-        try
-        {
-            Class c = object.getClass();
-            String source = "";
-            for (Method method : c.getMethods())
-            {
-                if (method.getName().toLowerCase().contains(type) && method.getName().toLowerCase().contains("get") && method.getName().toLowerCase().contains("list"))
-                {
-                    source += String.valueOf(method.invoke(object));
-                    break;
-                }
-            }
-            String[] temps = source.split("!");
-            list.addAll(Arrays.asList(temps));
-        } catch (IllegalAccessException | InvocationTargetException e)
-        {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
     public static int deleteObject(Object object)
     {
         int result = -1;
@@ -161,13 +137,13 @@ public class DBUtil
     {
         String contactSql = "SELECT\n" +
                 "  contactName,\n" +
-                "  phoneNumberList,\n" +
+                "  phoneNumber,\n" +
                 "  countryCode,\n" +
                 "  tag,\n" +
-                "  emailList\n" +
+                "  email\n" +
                 "FROM contact, user\n" +
                 "WHERE username = '" + username + "' AND contact.userID = user.userID AND\n" +
-                "      (contact.contactName LIKE '%" + searchString + "%' OR contact.phoneNumberList LIKE '%" + searchString + "%')";
+                "      (contact.contactName LIKE '%" + searchString + "%' OR contact.phoneNumber LIKE '%" + searchString + "%')";
         return Initialization.getJDBCUtil().getPageBean(contactSql, new String[]{}, curPage);
     }
 
