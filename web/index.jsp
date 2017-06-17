@@ -24,6 +24,7 @@
     String username = null;
     String message = null;
     String curTag = null;
+    boolean isSort = false;
     int pageIndex = 1;
     boolean isSearch = false;
     String searchString = null;
@@ -53,7 +54,10 @@
         if (cookie.getName().equals("username"))
         {
             username = cookie.getValue();
-            break;
+        }
+        if (cookie.getName().equals("isSort"))
+        {
+            isSort = cookie.getValue().equals("on");
         }
     }
     if (username == null)
@@ -71,10 +75,18 @@
         if (curTag != null)
         {
             contactSql = "SELECT contactID,contactName,phoneNumberList,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID AND tag=?";
+            if (isSort)
+            {
+                contactSql += " ORDER BY contactName";
+            }
             pageBean = Initialization.getJDBCUtil().getPageBean(contactSql, new String[]{username, curTag}, pageIndex);
         } else
         {
             contactSql = "SELECT contactID,contactName,phoneNumberList,countryCode,tag,emailList FROM contact,user WHERE username=? AND contact.userID=user.userID";
+            if (isSort)
+            {
+                contactSql += " ORDER BY contactName";
+            }
             pageBean = Initialization.getJDBCUtil().getPageBean(contactSql, new String[]{username}, pageIndex);
         }
         contactList = Initialization.getJDBCUtil().getObjectFromList(Contact.class, pageBean.getData());
@@ -200,10 +212,10 @@
         <div class="divider"></div>
     </li>
     <li>
-        <a class="subheader">Subheader</a>
-    </li>
-    <li>
-        <a class="waves-effect" href="#">Third Link With Waves</a>
+        <a class="waves-effect" href="#modal-settings">
+            <i class="material-icons">settings</i>
+            Advance Settings
+        </a>
     </li>
 </ul>
 
@@ -426,6 +438,31 @@
             <div class="modal-footer">
                 <a href="#" onclick="checkForm('form-new-tag',-1);"
                    class=" modal-action modal-close waves-effect waves-green btn-flat">Create</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="modal-settings" class="modal">
+        <form id="settings" action="SettingsServlet" method="post">
+            <div class="modal-content">
+                <h4>Settings</h4>
+                <!-- Switch -->
+                <div class="switch">
+                    <label>
+                        Contacts sort by name?
+                        &emsp;&emsp;&emsp;OFF
+                        <input type="checkbox" name="isSort" <%=isSort?"checked":""%>>
+                        <span class="lever"></span>
+                        ON
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" onclick="$('#settings').submit();"
+                   class="modal-action modal-close waves-effect waves-green btn">
+                    <i class="material-icons">done_all</i>
+                </a>
             </div>
         </form>
     </div>
