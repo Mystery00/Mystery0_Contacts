@@ -4,9 +4,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="init.Initialization" %>
 <%@ page import="util.PageBean" %>
-<%@ page import="java.io.OutputStream" %>
-<%@ page import="java.io.File" %>
-<%@ page import="java.io.FileInputStream" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +23,6 @@
     String username = null;
     String message = null;
     String curTag = null;
-    String path = null;
     boolean isSort = false;
     boolean isSearch = false;
     boolean isCheckRepeat = false;
@@ -503,10 +499,10 @@
 
     <!-- Modal Structure -->
     <div id="modal-settings" class="modal row">
-        <form id="settings" action="SettingsServlet" method="post">
-            <div class="modal-content row">
-                <h4>Settings</h4>
-                <!-- Switch -->
+        <div class="modal-content row">
+            <h4>Settings</h4>
+            <!-- Switch -->
+            <form id="settings" action="SettingsServlet" method="post">
                 <div class="switch">
                     <label>
                         Contacts sort by name?
@@ -516,19 +512,29 @@
                         ON
                     </label>
                 </div>
-                <br>
-                <p class="row col s12"><a href="#" class="waves-effect waves-light btn col s12">Import from Excel</a>
-                </p>
-                <p class="row col s12"><a href="ExportServlet"
-                                          class="waves-effect waves-light btn col s12">Export to Excel</a></p>
+            </form>
+            <br>
+            <div class="file-field input-field col s12 row">
+                <form action="UploadServlet" method="post" enctype="multipart/form-data">
+                    <div class="btn col s3">
+                        <span>Import from Excel</span>
+                        <input type="file" name="file">
+                    </div>
+                    <div class="file-path-wrapper col s7">
+                        <input class="file-path validate" type="text" name="fileName" title="fileName">
+                    </div>
+                    <button class="btn waves-effect waves-light col s2" type="submit" name="action">upload</button>
+                </form>
             </div>
-            <div class="modal-footer">
-                <a href="#" onclick="$('#settings').submit();"
-                   class="modal-action modal-close waves-effect waves-green btn">
-                    <i class="material-icons">done_all</i>
-                </a>
-            </div>
-        </form>
+            <p class="row col s12"><a href="ExportServlet"
+                                      class="waves-effect waves-light btn col s12">Export to Excel</a></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" onclick="$('#settings').submit();"
+               class="modal-action modal-close waves-effect waves-green btn">
+                <i class="material-icons">done_all</i>
+            </a>
+        </div>
     </div>
 
     <%
