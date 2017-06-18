@@ -182,14 +182,12 @@
     </li>
     <li>
         <a href="index.jsp" class="waves-effect">
-            <i class="material-icons">contacts</i>
-            Contacts
+            <i class="material-icons">contacts</i>Contacts
         </a>
     </li>
     <li>
         <a href="RepeatServlet" class="waves-effect">
-            <i class="material-icons">content_copy</i>
-            Repeat Contacts
+            <i class="material-icons">content_copy</i>Repeat Contacts
         </a>
     </li>
     <li>
@@ -215,11 +213,11 @@
                         <a href="index.jsp?tag=<%=tag.getTagName()%>">
                             <i class="material-icons">label</i>
                             <%=tag.getTagName()%>
-                            <i class="material-icons right tag-delete hide"
+                            <i id="tag-delete-btn" class="material-icons right tag-delete hide"
                                onclick="delete_data('<%=tag.getTagName()%>','tag',<%=tag.getTagID()%>)">
                                 delete
                             </i>
-                            <i class="material-icons right tag-delete hide"
+                            <i id="tag-edit-btn" class="material-icons right tag-delete hide"
                                onclick="showEditTag(<%=index%>)">edit
                             </i>
                         </a>
@@ -231,8 +229,7 @@
                 <ul class="collapsible-body">
                     <li>
                         <a href="#modal-new-tag">
-                            <i class="material-icons">add</i>
-                            Create Tag
+                            <i class="material-icons">add</i>Create Tag
                         </a>
                     </li>
                 </ul>
@@ -244,8 +241,7 @@
     </li>
     <li>
         <a class="waves-effect" href="#modal-settings">
-            <i class="material-icons">settings</i>
-            Advance Settings
+            <i class="material-icons">settings</i>Advance Settings
         </a>
     </li>
 </ul>
@@ -349,18 +345,10 @@
                             language
                         </i>
                         <select id="countryCode<%=index%>" class="icons" name="countryCode">
-                            <option value="null" <%=contact.getCountryCode().equals("null") ? "selected" : ""%>>
-                                Choose your Country
-                            </option>
-                            <option value="+86" <%=contact.getCountryCode().equals("+86") ? "selected" : ""%>>
-                                China (+86)
-                            </option>
-                            <option value="+1" <%=contact.getCountryCode().equals("+1") ? "selected" : ""%>>
-                                US (+1)
-                            </option>
-                            <option value="other" <%=contact.getCountryCode().equals("other") ? "selected" : ""%>>
-                                Other
-                            </option>
+                            <option value="null" <%=contact.getCountryCode().equals("null") ? "selected" : ""%>>Choose your Country</option>
+                            <option value="+86" <%=contact.getCountryCode().equals("+86") ? "selected" : ""%>>China (+86)</option>
+                            <option value="+1" <%=contact.getCountryCode().equals("+1") ? "selected" : ""%>>US (+1)</option>
+                            <option value="other" <%=contact.getCountryCode().equals("other") ? "selected" : ""%>>Other</option>
                         </select>
                         <label for="countryCode<%=index%>">Country</label>
                     </div>
@@ -369,9 +357,7 @@
                             label
                         </i>
                         <select id="tag<%=index%>" class="icons" name="tag">
-                            <option value="null" <%=contact.getTag().equals("null") ? "selected" : ""%>>
-                                Please Choose Tag
-                            </option>
+                            <option value="null" <%=contact.getTag().equals("null") ? "selected" : ""%>>Please Choose Tag</option>
                             <%
                                 for (Object tagObject : tagList)
                                 {
@@ -559,14 +545,11 @@
                         <input class="file-path validate" type="text" name="fileName"
                                title="fileName">
                     </div>
-                    <button class="btn waves-effect waves-light col s2" type="submit" name="action">
-                        upload
-                    </button>
+                    <button class="btn waves-effect waves-light col s2" type="submit" name="action">upload</button>
                 </form>
             </div>
             <p class="row col s12"><a href="ExportServlet"
-                                      class="waves-effect waves-light btn col s12">Export to
-                Excel</a></p>
+                                      class="waves-effect waves-light btn col s12">Export toExcel</a></p>
         </div>
         <div class="modal-footer">
             <a href="#" onclick="$('#settings').submit();"
@@ -600,11 +583,7 @@
 
 <footer class="page-footer blue">
     <%
-        if
-                (
-                !
-                        isCheckRepeat
-                )
+        if (!isCheckRepeat)
         {
     %>
     <div class="container center-align">
@@ -615,24 +594,7 @@
                 </a>
             </li>
             <%
-                for
-                        (
-                        int
-                        a
-                        =
-                        1
-                        ;
-                        a
-                                <=
-                                pageBean
-                                        .
-                                                getTotalPages
-                                                        (
-                                                        )
-                        ;
-                        a
-                                ++
-                        )
+                for (int a = 1; a <= pageBean.getTotalPages(); a++)
                 {
             %>
             <li class="<%=((pageIndex==a)?"active darken-1":"waves-effect")%> blue">
@@ -672,7 +634,8 @@
     // Initialize collapsible (uncomment the line below if you use the dropdown variation)
     $('.collapsible').collapsible();
 
-    $(document).ready(function () {
+    $(document).ready(function ()
+    {
         // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
         $('.modal').modal();
 

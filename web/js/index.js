@@ -78,6 +78,11 @@ $(".tag-item").mouseleave(function (e)
     $(e.delegateTarget).find(".tag-delete").addClass("hide");
 });
 
+$(".tag-delete").click(function ()
+{
+    return false;
+});
+
 /*
  检测表单数据
  */
