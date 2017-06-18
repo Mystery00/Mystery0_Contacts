@@ -113,8 +113,11 @@
 <header>
     <nav>
         <div id="reset-nav-wrapper" class="row nav-wrapper blue">
-            <a href="#" data-activates="slide-out" class="brand-logo button-collapse left"><i
-                    class="material-icons">dehaze</i>Mystery0 Contacts</a>
+            <a href="#" data-activates="slide-out" class="brand-logo button-collapse left">
+                <i
+                        class="material-icons">dehaze
+                </i>
+                Mystery0 Contacts</a>
             <form id="reset-search-box" class="col s6" action="SearchServlet" method="post">
                 <div class="input-field">
                     <input name="searchString" id="search" type="search">
@@ -143,13 +146,15 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="dropdown-button" data-beloworigin="true" data-activates='dropdown-account'
+                    <a href="#" class="dropdown-button" data-beloworigin="true"
+                       data-activates='dropdown-account'
                        data-constrainwidth="false" data-hover="true">
                         <i class="material-icons">account_circle</i>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="dropdown-button" data-beloworigin="true" data-activates='dropdown'>
+                    <a href="#" class="dropdown-button" data-beloworigin="true"
+                       data-activates='dropdown'>
                         <i class="material-icons">more_vert</i>
                     </a>
                 </li>
@@ -211,9 +216,12 @@
                             <i class="material-icons">label</i>
                             <%=tag.getTagName()%>
                             <i class="material-icons right tag-delete hide"
-                               onclick="delete_data('<%=tag.getTagName()%>','tag',<%=tag.getTagID()%>)">delete</i>
+                               onclick="delete_data('<%=tag.getTagName()%>','tag',<%=tag.getTagID()%>)">
+                                delete
+                            </i>
                             <i class="material-icons right tag-delete hide"
-                               onclick="showEditTag(<%=index%>)">edit</i>
+                               onclick="showEditTag(<%=index%>)">edit
+                            </i>
                         </a>
                     </li>
                 </ul>
@@ -319,13 +327,17 @@
                 <div class="modal-content row">
                     <h5>Edit Contact</h5>
                     <div class="input-field col s12">
-                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">account_circle</i>
+                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
+                            account_circle
+                        </i>
                         <input id="contactName<%=index%>" value="<%=contact.getContactName()%>"
                                name="contactName" type="text" class="validate" required>
                         <label for="contactName<%=index%>">Name</label>
                     </div>
                     <div class="input-field col s12">
-                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">smartphone</i>
+                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
+                            smartphone
+                        </i>
                         <input id="phoneNumber<%=index%>"
                                value="<%=contact.getPhoneNumber()%>"
                                name="phoneNumber" type="number" class="validate"
@@ -333,19 +345,32 @@
                         <label for="phoneNumber<%=index%>">Phone</label>
                     </div>
                     <div class="input-field col s6">
-                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">language</i>
+                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
+                            language
+                        </i>
                         <select id="countryCode<%=index%>" class="icons" name="countryCode">
-                            <option value="null" <%=contact.getCountryCode().equals("null") ? "selected" : ""%>>Choose your Country</option>
-                            <option value="+86" <%=contact.getCountryCode().equals("+86") ? "selected" : ""%>>China (+86)</option>
-                            <option value="+1" <%=contact.getCountryCode().equals("+1") ? "selected" : ""%>>US (+1)</option>
-                            <option value="other" <%=contact.getCountryCode().equals("other") ? "selected" : ""%>>Other</option>
+                            <option value="null" <%=contact.getCountryCode().equals("null") ? "selected" : ""%>>
+                                Choose your Country
+                            </option>
+                            <option value="+86" <%=contact.getCountryCode().equals("+86") ? "selected" : ""%>>
+                                China (+86)
+                            </option>
+                            <option value="+1" <%=contact.getCountryCode().equals("+1") ? "selected" : ""%>>
+                                US (+1)
+                            </option>
+                            <option value="other" <%=contact.getCountryCode().equals("other") ? "selected" : ""%>>
+                                Other
+                            </option>
                         </select>
                         <label for="countryCode<%=index%>">Country</label>
                     </div>
                     <div class="input-field col s6">
-                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">label</i>
+                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
+                            label
+                        </i>
                         <select id="tag<%=index%>" class="icons" name="tag">
-                            <option value="null" <%=contact.getTag().equals("null") ? "selected" : ""%>>Please Choose Tag
+                            <option value="null" <%=contact.getTag().equals("null") ? "selected" : ""%>>
+                                Please Choose Tag
                             </option>
                             <%
                                 for (Object tagObject : tagList)
@@ -361,7 +386,9 @@
                         <label for="tag<%=index%>">Tag</label>
                     </div>
                     <div class="input-field col s12">
-                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">email</i>
+                        <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
+                            email
+                        </i>
                         <input id="email<%=index%>" value="<%=contact.getEmail()%>"
                                name="email" type="email" class="validate"
                                data-error="wrong">
@@ -422,19 +449,25 @@
             <div class="modal-content row">
                 <h5>New Contact</h5>
                 <div class="input-field col s12">
-                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">account_circle</i>
+                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
+                        account_circle
+                    </i>
                     <input id="contactName" name="contactName" type="text" class="validate"
                            required>
                     <label for="contactName">Name</label>
                 </div>
                 <div class="input-field col s12">
-                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">smartphone</i>
+                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
+                        smartphone
+                    </i>
                     <input id="phoneNumber" name="phoneNumber" type="number" class="validate"
                            required data-error="wrong">
                     <label for="phoneNumber">Phone</label>
                 </div>
                 <div class="input-field col s6">
-                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">language</i>
+                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">
+                        language
+                    </i>
                     <select id="countryCode" class="icons" name="countryCode">
                         <option value="null" selected>Choose your Country</option>
                         <option value="+86">China (+86)</option>
@@ -444,7 +477,8 @@
                     <label for="countryCode">Country</label>
                 </div>
                 <div class="input-field col s6">
-                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">label</i>
+                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">label
+                    </i>
                     <select id="tag" class="icons" name="tag">
                         <option selected value="null">Please Choose Tag
                         </option>
@@ -462,7 +496,8 @@
                     <label for="tag">Tag</label>
                 </div>
                 <div class="input-field col s12">
-                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">email</i>
+                    <i class="material-icons prefix reset-prefix valign-wrapper reset-color">email
+                    </i>
                     <input id="email" name="emailList" type="email" class="validate"
                            data-error="wrong">
                     <label for="email">E-mail</label>
@@ -521,13 +556,17 @@
                         <input type="file" name="file">
                     </div>
                     <div class="file-path-wrapper col s7">
-                        <input class="file-path validate" type="text" name="fileName" title="fileName">
+                        <input class="file-path validate" type="text" name="fileName"
+                               title="fileName">
                     </div>
-                    <button class="btn waves-effect waves-light col s2" type="submit" name="action">upload</button>
+                    <button class="btn waves-effect waves-light col s2" type="submit" name="action">
+                        upload
+                    </button>
                 </form>
             </div>
             <p class="row col s12"><a href="ExportServlet"
-                                      class="waves-effect waves-light btn col s12">Export to Excel</a></p>
+                                      class="waves-effect waves-light btn col s12">Export to
+                Excel</a></p>
         </div>
         <div class="modal-footer">
             <a href="#" onclick="$('#settings').submit();"
@@ -615,7 +654,8 @@
     %>
     <div class="footer-copyright">
         <div class="container">@ 2017 Copyright WeiLy Lab
-            <a class="grey-text text-lighten-4 right" href="http://www.mystery0.vip/">Made By Mystery0</a>
+            <a class="grey-text text-lighten-4 right" href="http://www.mystery0.vip/">Made By
+                Mystery0</a>
         </div>
     </div>
 </footer>
@@ -632,8 +672,7 @@
     // Initialize collapsible (uncomment the line below if you use the dropdown variation)
     $('.collapsible').collapsible();
 
-    $(document).ready(function ()
-    {
+    $(document).ready(function () {
         // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
         $('.modal').modal();
 

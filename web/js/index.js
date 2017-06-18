@@ -106,10 +106,12 @@ function checkForm(name, k)
 function delete_data(name, type, id)
 {
     window.location.href = "DeleteServlet?deleteString=" + name + "&type=" + type + "&id=" + id;
+    event.stopPropagation();
 }
 
 function showEditTag(index)
 {
     var id = '#modal-edit-tag-' + index;
     $(id).modal('open');
+    event.stopPropagation();
 }
