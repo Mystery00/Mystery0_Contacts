@@ -115,7 +115,7 @@
         <div id="reset-nav-wrapper" class="row nav-wrapper blue">
             <a href="#" data-activates="slide-out" class="brand-logo button-collapse left"><i
                     class="material-icons">dehaze</i>Mystery0 Contacts</a>
-            <form class="col s6 reset-search-box" action="SearchServlet" method="post">
+            <form id="reset-search-box" class="col s6" action="SearchServlet" method="post">
                 <div class="input-field">
                     <input name="searchString" id="search" type="search">
                     <label class="label-icon" for="search">

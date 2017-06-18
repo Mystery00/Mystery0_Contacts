@@ -20,9 +20,8 @@ main {
     justify-content: flex-end;
 }
 
-.reset-search-box {
+#reset-search-box {
     margin-left: 360px;
-!important;
 }
 
 #reset-floating-button {
