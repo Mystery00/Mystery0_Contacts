@@ -1,0 +1,1 @@
+CREATE DATABASE `mystery0_contacts` DEFAULT CHARACTER SET utf8 ;
