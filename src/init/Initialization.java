@@ -5,7 +5,6 @@ import util.JDBCUtil;
 public class Initialization
 {
     private static JDBCUtil jdbcUtil;
-    private static IndexHelper indexHelper;
 
     public static void initSQL()
     {
@@ -47,14 +46,5 @@ public class Initialization
             jdbcUtil = new JDBCUtil("mystery0_contacts");
         }
         return jdbcUtil;
-    }
-
-    public static IndexHelper getIndexHelper()
-    {
-        if (indexHelper == null)
-        {
-            indexHelper = new IndexHelper();
-        }
-        return indexHelper;
     }
 }
