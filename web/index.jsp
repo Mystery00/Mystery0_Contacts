@@ -484,7 +484,7 @@
                 <div class="input-field col s12">
                     <i class="material-icons prefix reset-prefix valign-wrapper reset-color">email
                     </i>
-                    <input id="email" name="emailList" type="email" class="validate"
+                    <input id="email" name="email" type="email" class="validate"
                            data-error="wrong">
                     <label for="email">E-mail</label>
                 </div>
@@ -549,7 +549,7 @@
                 </form>
             </div>
             <p class="row col s12"><a href="ExportServlet"
-                                      class="waves-effect waves-light btn col s12">Export toExcel</a></p>
+                                      class="waves-effect waves-light btn col s12">Export to Excel</a></p>
         </div>
         <div class="modal-footer">
             <a href="#" onclick="$('#settings').submit();"
